@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="SEONWU CHUNG — 3D Artist portfolio" />
+    <title>SEONWU CHUNG — 3D Artist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="wordmark" href="#about" data-nav="about">DK<span>_</span></a>
+      <nav aria-label="Main navigation">
+        <a href="#about" data-nav="about">About</a>
+        <a href="#professional" data-nav="professional">Professional</a>
+        <a href="#personal" data-nav="personal">Personal Works</a>
+        <a href="#all" data-nav="all">All Portfolio</a>
+      </nav>
+      <button id="menuButton" class="menu-button" aria-label="Open navigation">Menu</button>
+    </header>
+
+    <main id="scrollRoot">
+      <section id="about" class="about section active-section">
+        <div class="eyebrow">3D ARTIST / KOREA</div>
+        <h1>Making worlds<br />worth <em>looking into.</em></h1>
+        <div class="about-bottom">
+          <p>I am Seonwu Chung, a 3D artist working across environments, props and visual storytelling.</p>
+          <div class="about-links"><a href="#personal" data-nav="personal">Works <span>↘</span></a><a href="#professional" data-nav="professional">Professional <span>↘</span></a><button class="company-link" data-company="scifi">Studio Project <span>↗</span></button></div>
+        </div>
+      </section>
+
+      <section id="professional" class="section portfolio-section">
+        <div class="section-head"><p class="eyebrow">01 / PROFESSIONAL</p><h2>Selected projects<br />made with teams.</h2></div>
+        <div id="professionalGrid" class="project-grid featured-grid"></div>
+      </section>
+
+      <section id="personal" class="section portfolio-section">
+        <div class="section-head"><p class="eyebrow">02 / PERSONAL WORKS</p><h2>Studies, experiments<br />and finished worlds.</h2></div>
+        <div class="category-tabs" role="tablist">
+          <button class="category-tab active" data-category="personal">Personal</button>
+          <button class="category-tab" data-category="relight">Re:Lighting</button>
+          <button class="category-tab" data-category="sketch">Sketch Note</button>
+          <button class="category-tab" data-category="designer">Designer</button>
+        </div>
+        <div id="personalGrid" class="project-grid"></div>
+        <footer class="site-footer"><button id="copyEmail" class="email-link">Email ✉</button><span>© 2026 SEONWU CHUNG</span><button id="backToTop">Back to top ↑</button></footer>
+      </section>
+
+      <section id="all" class="section all-section">
+        <div class="section-head all-head"><p class="eyebrow">03 / ALL PORTFOLIO</p><h2>An evolving archive.</h2><p class="rank-note">Daily rank snapshot · image opens</p></div>
+        <div id="rankGrid" class="rank-grid"></div>
+        <div id="allGrid" class="all-grid"></div>
+        <div id="scrollSentinel" aria-hidden="true"></div>
+      </section>
+    </main>
+
+    <dialog id="lightbox" class="lightbox">
+      <button class="lightbox-close" aria-label="Close viewer">×</button>
+      <button class="lightbox-nav previous" aria-label="Previous project">←</button>
+      <div class="lightbox-stage"><img id="lightboxImage" alt="" /><iframe id="lightboxVideo" title="Portfolio video" allow="autoplay; encrypted-media" allowfullscreen></iframe><div id="lightboxMeta" class="lightbox-meta"></div></div>
+      <button class="lightbox-nav next" aria-label="Next project">→</button>
+      <aside id="lightboxThumbs" class="lightbox-thumbs" aria-label="Project images"></aside>
+    </dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>

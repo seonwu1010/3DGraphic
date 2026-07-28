@@ -1,0 +1,80 @@
+const projects = [
+  { id:'crt-nes', title:'CRT & NES', category:'personal', kind:'Personal', date:'2024.09', publishedAt:'2024-09-18', cover:'CRT&Nes_202409/Desktop_Main.jpg', images:['CRT&Nes_202409/Desktop_Main.jpg','CRT&Nes_202409/Desktop_CRT.jpg','CRT&Nes_202409/Desktop_Nes.jpg','CRT&Nes_202409/tbrender_Front.jpg'], description:'A nostalgic desktop scene built around the tactile charm of CRT gaming.' },
+  { id:'tile', title:'Tile Study 02', category:'sketch', kind:'Sketch Note', date:'2024.12', publishedAt:'2024-12-11', cover:'Tile2_202412/Tile2.jpg', images:['Tile2_202412/Tile2.jpg','Tile2_202412/Tile2(2).jpg'], description:'A material and surface study focused on hand-crafted tile variation.' },
+  { id:'scifi', title:'Sci-fi Corridor', category:'professional', kind:'Professional', company:'Studio Project', date:'2025.07', publishedAt:'2025-07-14', cover:'Sci-fi_202507/Desktop_Viewport.jpg', images:['Sci-fi_202507/Desktop_Viewport.jpg','Sci-fi_202507/Door.jpg','Sci-fi_202507/Wall.jpg','Sci-fi_202507/Floor.jpg'], description:'A modular sci-fi environment created for a studio production workflow.' },
+  { id:'knife', title:'Utility Knife', category:'designer', kind:'Designer', date:'2026.03', publishedAt:'2026-03-15', cover:'Knife_202603/knife_Camera 1.jpg', images:['Knife_202603/knife_Camera 1.jpg','Knife_202603/knife_Camera 2.jpg','Knife_202603/knife_Camera 3.jpg','Knife_202603/knife_Camera 4.jpg'], description:'A hard-surface prop exploration balancing precision and everyday wear.' },
+  { id:'rock', title:'Rock Formation', category:'relight', kind:'Re:Lighting', date:'2026.03', publishedAt:'2026-03-29', cover:'Rock_202603/Rock.jpg', images:['Rock_202603/Rock.jpg','Rock_202603/Rock(1).jpg','Rock_202603/Rock(2).jpg','Rock_202603/Rock(3).jpg'], description:'Lighting variations used to explore the form and mood of one asset.' },
+  { id:'pillar', title:'Ancient Pillar', category:'personal', kind:'Personal', date:'2026.04', publishedAt:'2026-04-16', cover:'Pillar_202604/Pillar.jpg', images:['Pillar_202604/Pillar.jpg','Pillar_202604/Pillar(1).jpg','Pillar_202604/Pillar(2).jpg','Pillar_202604/Pillar_Cut.jpg'], description:'A personal prop study with sculpted age, damage and material breakup.' },
+  { id:'scifi-note', title:'Environment Breakdown', category:'sketch', kind:'Sketch Note', date:'2026.07', publishedAt:'2026-07-08', cover:'Sci-fi_202507/Door.jpg', images:['Sci-fi_202507/Door.jpg'], video:'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?rel=0', description:'A short moving-note format for environment composition and lighting.' },
+  { id:'crt-relight', title:'CRT at Night', category:'relight', kind:'Re:Lighting', date:'2026.07', publishedAt:'2026-07-11', cover:'CRT&Nes_202409/Desktop_CRT(1).jpg', images:['CRT&Nes_202409/Desktop_CRT(1).jpg','CRT&Nes_202409/Desktop_Main Camera.jpg'], description:'A nocturnal lighting pass on the CRT & NES scene.' }
+];
+// Updated by the scheduled snapshot job; never calculated from a client-side Firestore top query.
+const rankSnapshot = ['crt-relight', 'scifi-note', 'pillar', 'rock', 'knife', 'crt-nes'];
+
+const byId = Object.fromEntries(projects.map(p => [p.id, p]));
+const image = p => encodeURI(p.cover);
+const getViews = id => Number(localStorage.getItem(`dk-view-${id}`) || 0);
+const setViews = (id, value) => localStorage.setItem(`dk-view-${id}`, value);
+const isNew = p => (Date.now() - new Date(p.publishedAt).getTime()) < 30 * 864e5;
+let activeCategory = 'personal', allCount = 8, viewing = [], currentIndex = 0, returnToAbout = false;
+
+function viewLabel(p) { const n = getViews(p.id); return isNew(p) && n < 10 ? 'NEW' : n ? `${n}` : ''; }
+function card(p, rank) {
+  return `<article class="project-card${rank ? ' rank-card' : ''}" data-project="${p.id}">
+    <img src="${image(p)}" alt="${p.title}" loading="lazy"><div class="card-info">${rank ? `<span class="rank-number">${rank}</span>` : ''}<span class="card-date">${p.date}</span><span class="card-title">${p.title}</span><span class="card-views">${viewLabel(p)}</span></div></article>`;
+}
+function renderProfessional() { document.querySelector('#professionalGrid').innerHTML = projects.filter(p => p.category === 'professional').map(card).join(''); }
+function renderPersonal() { document.querySelector('#personalGrid').innerHTML = projects.filter(p => p.category === activeCategory).map(card).join(''); }
+function ranked() { return [...projects].sort((a,b) => getViews(b.id)-getViews(a.id) || b.publishedAt.localeCompare(a.publishedAt)); }
+function renderAll(reset = false) {
+  if(reset) allCount = 8;
+  const items = Array.from({length:allCount},(_,i)=>projects[i % projects.length]);
+  document.querySelector('#allGrid').innerHTML = items.map(card).join('');
+  document.querySelector('#rankGrid').innerHTML = rankSnapshot.map(id=>byId[id]).map((p,i)=>card(p,i+1)).join('');
+}
+function trackView(p) {
+  const key = `dk-seen-${p.id}`;
+  if (!sessionStorage.getItem(key)) { setViews(p.id, getViews(p.id)+1); sessionStorage.setItem(key, '1'); }
+}
+function openLightbox(id, source) {
+  const project = byId[id]; if (!project) return;
+  returnToAbout = source === 'about';
+  viewing = source === 'all' ? projects : projects.filter(p => p.category === project.category);
+  currentIndex = viewing.findIndex(p => p.id === id);
+  document.querySelector('#lightbox').showModal();
+  updateLightbox(true);
+}
+function updateLightbox(count = false) {
+  const p = viewing[currentIndex]; if (count) trackView(p);
+  const img = document.querySelector('#lightboxImage'), video = document.querySelector('#lightboxVideo');
+  img.src = image(p); img.alt = p.title;
+  video.src = p.video || '';
+  document.querySelector('#lightboxMeta').innerHTML = `<strong>${p.title}</strong><br>${p.kind} · ${p.date}<br>${p.description}`;
+  document.querySelector('#lightboxThumbs').innerHTML = viewing.map((item,i)=>`<button class="${i===currentIndex?'active':''}" data-lightbox-index="${i}" aria-label="Open ${item.title}"><img src="${image(item)}" alt=""></button>`).join('');
+}
+function move(direction, random = false) {
+  if (!viewing.length) return;
+  currentIndex = random ? Math.floor(Math.random() * viewing.length) : (currentIndex + direction + viewing.length) % viewing.length;
+  updateLightbox(true);
+}
+function toast(message) { const el=document.querySelector('#toast'); el.textContent=message; el.classList.add('visible'); clearTimeout(toast.t); toast.t=setTimeout(()=>el.classList.remove('visible'),1800); }
+
+document.addEventListener('click', event => {
+  const company = event.target.closest('[data-company]'); if(company) { openLightbox(company.dataset.company, 'about'); return; }
+  const nav = event.target.closest('[data-nav]');
+  if(nav) { event.preventDefault(); const section=document.querySelector(`#${nav.dataset.nav}`); section.scrollIntoView({behavior:'smooth',block:'start'}); if(nav.dataset.nav==='about') setTimeout(()=>window.scrollTo({top:0,behavior:'smooth'}),20); return; }
+  const project = event.target.closest('[data-project]'); if(project) { openLightbox(project.dataset.project, project.closest('#allGrid, #rankGrid') ? 'all' : 'category'); return; }
+  const tab = event.target.closest('[data-category]'); if(tab) { activeCategory=tab.dataset.category; document.querySelectorAll('.category-tab').forEach(b=>b.classList.toggle('active',b===tab)); renderPersonal(); return; }
+  if(event.target.closest('#copyEmail')) navigator.clipboard.writeText('dukgoo.env@gmail.com').then(()=>toast('Email address copied.'));
+  if(event.target.closest('#backToTop')) window.scrollTo({top:0,behavior:'smooth'});
+  if(event.target.closest('.lightbox-close')) document.querySelector('#lightbox').close();
+  const index = event.target.closest('[data-lightbox-index]'); if(index){currentIndex=Number(index.dataset.lightboxIndex); updateLightbox(true);}
+  if(event.target.closest('.previous')) move(-1); if(event.target.closest('.next')) move(1);
+});
+document.querySelector('#lightbox').addEventListener('close', () => { if(returnToAbout) document.querySelector('#about').scrollIntoView({block:'start'}); });
+document.querySelector('#lightbox').addEventListener('wheel', event => { event.preventDefault(); move(event.deltaY > 0 ? 1 : -1, viewing === projects); }, {passive:false});
+document.querySelector('#scrollSentinel');
+new IntersectionObserver(entries => { if(entries[0].isIntersecting) { allCount += 8; renderAll(); } }, {root:null,rootMargin:'500px'}).observe(document.querySelector('#scrollSentinel'));
+document.querySelector('#menuButton').addEventListener('click',()=>toast('About · Professional · Personal Works · All Portfolio'));
+renderProfessional(); renderPersonal(); renderAll(true);
+window.addEventListener('storage',()=>renderAll());
