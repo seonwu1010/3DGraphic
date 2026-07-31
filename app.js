@@ -25,8 +25,8 @@ function renderLightbox() {
 }
 function moveImage(step) { activeImage = (activeImage + step + activeProject.images.length) % activeProject.images.length; renderLightbox(); }
 function updateZoom() { const image = document.querySelector('#zoomImage'); image.style.transform = `translate(${zoomX}px, ${zoomY}px) scale(${zoomScale})`; image.style.cursor = zoomScale > 1 ? 'grab' : 'zoom-in'; }
-function openZoom() { const image = document.querySelector('#zoomImage'); image.src = asset(activeProject.images[activeImage]); image.alt = activeProject.title; zoomScale = 1; zoomX = 0; zoomY = 0; document.querySelector('#zoomViewer').hidden = false; updateZoom(); }
-function closeZoom() { document.querySelector('#zoomViewer').hidden = true; }
+function openZoom() { const image = document.querySelector('#zoomImage'); image.src = asset(activeProject.images[activeImage]); image.alt = activeProject.title; zoomScale = 1; zoomX = 0; zoomY = 0; const viewer = document.querySelector('#zoomViewer'); if (!viewer.open) viewer.showModal(); updateZoom(); }
+function closeZoom() { const viewer = document.querySelector('#zoomViewer'); if (viewer.open) viewer.close(); }
 function toast(message) { const element = document.querySelector('#toast'); element.textContent = message; element.classList.add('visible'); clearTimeout(toast.timer); toast.timer = setTimeout(() => element.classList.remove('visible'), 1800); }
 function startHeroSlideshow() {
   const slides = [...document.querySelectorAll('.hero-slide')];
