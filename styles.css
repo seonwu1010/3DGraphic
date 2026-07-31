@@ -14,3 +14,4 @@
 .about-label{display:flex;align-items:center;gap:40px;color:#0b151b;font:700 clamp(48px,5vw,92px)/.78 "Instrument Sans",sans-serif;letter-spacing:-.08em}.about-label::after{content:"";flex:1;height:1px;background:radial-gradient(circle at calc(100% - 48px) center,#e34b35 0 2px,transparent 2.5px),linear-gradient(#292929,#292929) center/100% 1px no-repeat}@media(max-width:700px){.about-label{gap:20px;font-size:52px}.about-label::after{background:linear-gradient(#292929,#292929) center/100% 1px no-repeat}.about-grid{margin-top:55px}}
 .section-title h2{font-size:clamp(64px,6.6vw,126px)}.about-label{color:#101c23;font-size:clamp(76px,6.8vw,130px)}
 #contact>.about-label{display:flex!important;align-items:center!important;gap:40px!important;margin:0!important;color:#101c23!important;font:700 clamp(76px,6.8vw,130px)/.78 "Instrument Sans",sans-serif!important;letter-spacing:-.08em!important}
+.education-school{display:block;margin-top:7px;color:#b8b5ae;font-size:14px}
