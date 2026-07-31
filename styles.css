@@ -19,3 +19,4 @@
 .about-intro>p+p{margin-top:14px}.about-intro .career-goal{margin-top:24px;color:#e7e4dc;font-weight:500}
 .tool-list span:nth-child(-n+3){color:var(--blue);border-color:rgba(32,163,255,.7)}
 :root{--blue:#d3b77d}.tool-list span:nth-child(-n+3){border-color:rgba(211,183,125,.7)}
+.works-rule,.about-line{background:#5c4b30}.about-label,#contact>.about-label{color:#211b12!important}
