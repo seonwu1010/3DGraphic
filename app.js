@@ -57,8 +57,10 @@ document.querySelector('#lightbox').addEventListener('wheel', event => { event.p
 document.querySelector('#lightboxImage').addEventListener('click', event => { event.stopPropagation(); openZoom(); });
 document.querySelector('#zoomCanvas').addEventListener('wheel', event => { event.preventDefault(); zoomScale = Math.min(5, Math.max(1, zoomScale + (event.deltaY < 0 ? .2 : -.2))); if (zoomScale === 1) { zoomX = 0; zoomY = 0; } updateZoom(); }, {passive:false});
 document.querySelector('#zoomCanvas').addEventListener('pointerdown', event => { if (zoomScale <= 1 || event.button !== 0) return; dragStart = {x:event.clientX, y:event.clientY, zoomX, zoomY}; event.currentTarget.setPointerCapture(event.pointerId); document.querySelector('#zoomImage').style.cursor = 'grabbing'; });
-document.querySelector('#zoomCanvas').addEventListener('pointermove', event => { if (!dragStart) return; zoomX = dragStart.zoomX + event.clientX - dragStart.x; zoomY = dragStart.zoomY + event.clientY - dragStart.y; updateZoom(); });
+document.querySelector('#zoomCanvas').addEventListener('pointermove', event => { if (!dragStart || (event.buttons & 1) === 0) { if (dragStart) { dragStart = null; updateZoom(); } return; } zoomX = dragStart.zoomX + event.clientX - dragStart.x; zoomY = dragStart.zoomY + event.clientY - dragStart.y; updateZoom(); });
 document.querySelector('#zoomCanvas').addEventListener('pointerup', () => { dragStart = null; updateZoom(); });
+document.querySelector('#zoomCanvas').addEventListener('pointercancel', () => { dragStart = null; updateZoom(); });
+document.querySelector('#zoomCanvas').addEventListener('lostpointercapture', () => { dragStart = null; updateZoom(); });
 document.addEventListener('keydown', event => { if (event.key === 'Escape') closeZoom(); });
 renderProjects();
 startHeroSlideshow();
