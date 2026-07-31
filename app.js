@@ -51,7 +51,7 @@ document.addEventListener('click', event => {
   if (event.target.closest('.lightbox-close')) document.querySelector('#lightbox').close();
   if (event.target.closest('.previous')) moveImage(-1);
   if (event.target.closest('.next')) moveImage(1);
-  if (event.target.closest('#copyEmail')) navigator.clipboard.writeText('dukgoo.env@gmail.com').then(() => toast('Email address copied.'));
+  if (event.target.closest('#copyEmail')) navigator.clipboard.writeText('seonwu1010@naver.com').then(() => toast('Email address copied.'));
 });
 document.querySelector('#lightbox').addEventListener('wheel', event => { event.preventDefault(); moveImage(event.deltaY > 0 ? 1 : -1); }, {passive:false});
 document.querySelector('#lightboxImage').addEventListener('click', event => { event.stopPropagation(); openZoom(); });
