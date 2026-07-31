@@ -12,10 +12,9 @@
   </head>
   <body>
     <header class="site-header">
-      <a class="wordmark" href="#about" data-nav="about">SEONWU / 3D-ART</a>
+      <a class="wordmark" href="#about" data-nav="about">SEONWU / 3D-BG</a>
       <nav aria-label="Main navigation">
-        <a href="#personal" data-nav="personal">WORKS</a>
-        <a href="#personal" data-nav="zbrush">ZBRUSH</a>
+        <a href="#personal" data-nav="personal">3D WORKS</a>
         <a href="#about" data-nav="about">ABOUT</a>
         <a href="#contact" data-nav="contact">CONTACT</a>
       </nav>
@@ -25,13 +24,13 @@
     <main>
       <section id="about" class="hero section">
         <div class="hero-image hero-image-a"></div><div class="hero-image hero-image-b"></div>
-        <div class="hero-copy"><span>3D BACKGROUND</span><h1>ENV<br />ART<em>IST</em></h1><p>3D Artist · Environment · Props</p></div>
+        <div class="hero-copy"><span>3D BACKGROUND ARTIST · ENVIRONMENT</span><h1>BACK<br />GROUND<br />ART<em>IST</em></h1><p>— SEONWU CHUNG</p></div>
+        <div class="tool-list"><span>3DS MAX</span><span>ZBRUSH</span><span>SUBSTANCE</span><span>MARM OSET</span></div>
         <a href="#personal" class="scroll-prompt" data-nav="personal">SCROLL ↓</a>
       </section>
 
       <section id="personal" class="works section">
-        <div class="section-title"><p>WORKS</p><h2>Selected<br />Projects</h2><span>Click → Detail</span></div>
-        <div class="category-tabs" role="tablist"><button class="category-tab active" data-category="personal">Personal</button><button class="category-tab" data-category="zbrush">ZBrush</button></div>
+        <div class="section-title"><p>WOR<br />KS</p><h2>Selected<br />Projects</h2><span id="projectCount">4 Projects<br />Click → Detail</span></div>
         <div id="personalGrid" class="project-grid"></div>
       </section>
 
@@ -40,7 +39,7 @@
       </section>
     </main>
 
-    <dialog id="lightbox" class="lightbox"><button class="lightbox-close" aria-label="Close viewer">×</button><button class="lightbox-nav previous" aria-label="Previous project">←</button><div class="lightbox-stage"><img id="lightboxImage" alt="" /><div id="lightboxMeta" class="lightbox-meta"></div></div><button class="lightbox-nav next" aria-label="Next project">→</button><aside id="lightboxThumbs" class="lightbox-thumbs" aria-label="Project images"></aside></dialog>
+    <dialog id="lightbox" class="lightbox"><button class="lightbox-close" aria-label="Close viewer">×</button><button class="lightbox-nav previous" aria-label="Previous image">←</button><div class="lightbox-stage"><img id="lightboxImage" alt="" /><div id="lightboxMeta" class="lightbox-meta"></div></div><button class="lightbox-nav next" aria-label="Next image">→</button><aside id="lightboxThumbs" class="lightbox-thumbs" aria-label="Project images"></aside></dialog>
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
     <script src="app.js"></script>
   </body>
