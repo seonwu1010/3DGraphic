@@ -8,6 +8,7 @@ const projects = [
 const byId = Object.fromEntries(projects.map(project => [project.id, project]));
 const asset = path => encodeURI(path);
 let activeProject, activeImage = 0;
+let zoomScale = 1, zoomX = 0, zoomY = 0, dragStart = null;
 
 function renderProjects() {
   const categoryOrder = {Personal: 0, ZBrush: 1};
@@ -23,6 +24,9 @@ function renderLightbox() {
   document.querySelector('#lightboxThumbs').innerHTML = activeProject.images.map((item, index) => `<button class="${index === activeImage ? 'active' : ''}" data-image-index="${index}" aria-label="Open image ${index + 1}"><img src="${asset(item)}" alt=""></button>`).join('');
 }
 function moveImage(step) { activeImage = (activeImage + step + activeProject.images.length) % activeProject.images.length; renderLightbox(); }
+function updateZoom() { const image = document.querySelector('#zoomImage'); image.style.transform = `translate(${zoomX}px, ${zoomY}px) scale(${zoomScale})`; image.style.cursor = zoomScale > 1 ? 'grab' : 'zoom-in'; }
+function openZoom() { const image = document.querySelector('#zoomImage'); image.src = asset(activeProject.images[activeImage]); image.alt = activeProject.title; zoomScale = 1; zoomX = 0; zoomY = 0; document.querySelector('#zoomViewer').hidden = false; updateZoom(); }
+function closeZoom() { document.querySelector('#zoomViewer').hidden = true; }
 function toast(message) { const element = document.querySelector('#toast'); element.textContent = message; element.classList.add('visible'); clearTimeout(toast.timer); toast.timer = setTimeout(() => element.classList.remove('visible'), 1800); }
 function startHeroSlideshow() {
   const slides = [...document.querySelectorAll('.hero-slide')];
@@ -43,11 +47,18 @@ document.addEventListener('click', event => {
   const nav = event.target.closest('[data-nav]'); if (nav) { event.preventDefault(); document.querySelector(`#${nav.dataset.nav}`).scrollIntoView({behavior:'smooth'}); return; }
   const card = event.target.closest('[data-project]'); if (card) { openProject(card.dataset.project); return; }
   const thumb = event.target.closest('[data-image-index]'); if (thumb) { activeImage = Number(thumb.dataset.imageIndex); renderLightbox(); return; }
+  if (event.target.closest('#lightboxImage')) { openZoom(); return; }
+  if (event.target.closest('#zoomClose')) { closeZoom(); return; }
   if (event.target.closest('.lightbox-close')) document.querySelector('#lightbox').close();
   if (event.target.closest('.previous')) moveImage(-1);
   if (event.target.closest('.next')) moveImage(1);
   if (event.target.closest('#copyEmail')) navigator.clipboard.writeText('dukgoo.env@gmail.com').then(() => toast('Email address copied.'));
 });
 document.querySelector('#lightbox').addEventListener('wheel', event => { event.preventDefault(); moveImage(event.deltaY > 0 ? 1 : -1); }, {passive:false});
+document.querySelector('#zoomCanvas').addEventListener('wheel', event => { event.preventDefault(); zoomScale = Math.min(5, Math.max(1, zoomScale + (event.deltaY < 0 ? .2 : -.2))); if (zoomScale === 1) { zoomX = 0; zoomY = 0; } updateZoom(); }, {passive:false});
+document.querySelector('#zoomCanvas').addEventListener('pointerdown', event => { if (zoomScale <= 1 || event.button !== 0) return; dragStart = {x:event.clientX, y:event.clientY, zoomX, zoomY}; event.currentTarget.setPointerCapture(event.pointerId); document.querySelector('#zoomImage').style.cursor = 'grabbing'; });
+document.querySelector('#zoomCanvas').addEventListener('pointermove', event => { if (!dragStart) return; zoomX = dragStart.zoomX + event.clientX - dragStart.x; zoomY = dragStart.zoomY + event.clientY - dragStart.y; updateZoom(); });
+document.querySelector('#zoomCanvas').addEventListener('pointerup', () => { dragStart = null; updateZoom(); });
+document.addEventListener('keydown', event => { if (event.key === 'Escape') closeZoom(); });
 renderProjects();
 startHeroSlideshow();
