@@ -24,6 +24,20 @@ function renderLightbox() {
 }
 function moveImage(step) { activeImage = (activeImage + step + activeProject.images.length) % activeProject.images.length; renderLightbox(); }
 function toast(message) { const element = document.querySelector('#toast'); element.textContent = message; element.classList.add('visible'); clearTimeout(toast.timer); toast.timer = setTimeout(() => element.classList.remove('visible'), 1800); }
+function startHeroSlideshow() {
+  const slides = [...document.querySelectorAll('.hero-slide')];
+  const covers = projects.map(project => project.cover);
+  let current = 0, front = 0;
+  slides[front].style.backgroundImage = `url("${asset(covers[current])}")`;
+  setInterval(() => {
+    current = (current + 1) % covers.length;
+    const back = front === 0 ? 1 : 0;
+    slides[back].style.backgroundImage = `url("${asset(covers[current])}")`;
+    slides[back].classList.add('is-active');
+    slides[front].classList.remove('is-active');
+    front = back;
+  }, 10000);
+}
 
 document.addEventListener('click', event => {
   const nav = event.target.closest('[data-nav]'); if (nav) { event.preventDefault(); document.querySelector(`#${nav.dataset.nav}`).scrollIntoView({behavior:'smooth'}); return; }
@@ -36,3 +50,4 @@ document.addEventListener('click', event => {
 });
 document.querySelector('#lightbox').addEventListener('wheel', event => { event.preventDefault(); moveImage(event.deltaY > 0 ? 1 : -1); }, {passive:false});
 renderProjects();
+startHeroSlideshow();
