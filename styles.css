@@ -16,3 +16,4 @@
 #contact>.about-label{display:flex!important;align-items:center!important;gap:40px!important;margin:0!important;color:#101c23!important;font:700 clamp(76px,6.8vw,130px)/.78 "Instrument Sans",sans-serif!important;letter-spacing:-.08em!important}
 .education-school{display:block;margin-top:7px;color:#b8b5ae;font-size:14px}
 #contact .about-intro h2,#contact .about-intro>p,#contact .about-intro strong,#contact .education-school,#contact .profile-panel dd{font-family:"Noto Sans KR","Instrument Sans",sans-serif}#contact .about-intro h2{font-weight:400;letter-spacing:-.065em;line-height:1.56}#contact .about-intro>p{font-weight:400;letter-spacing:-.04em}#contact .about-intro strong{font-weight:500;letter-spacing:-.035em}#contact .profile-panel dd{font-weight:400;letter-spacing:-.035em}
+.about-intro>p+p{margin-top:14px}.about-intro .career-goal{margin-top:24px;color:#e7e4dc;font-weight:500}
