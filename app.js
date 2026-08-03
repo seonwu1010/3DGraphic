@@ -22,7 +22,7 @@ function renderProjects() {
 function openProject(id) { activeProject = byId[id]; activeImage = 0; document.querySelector('#lightbox').showModal(); renderLightbox(); }
 function renderLightbox() {
   const path = activeProject.images[activeImage];
-  const image = document.querySelector('#lightboxImage'); image.src = asset(path); image.alt = activeProject.title; image.classList.remove('is-zoomed'); image.style.removeProperty('--pan-x'); image.style.removeProperty('--pan-y'); inlinePanX = 0; inlinePanY = 0;
+  const image = document.querySelector('#lightboxImage'); image.src = asset(path); image.alt = activeProject.title; image.classList.remove('is-zoomed'); image.style.removeProperty('--pan-x'); image.style.removeProperty('--pan-y'); image.style.removeProperty('cursor'); inlinePanX = 0; inlinePanY = 0; inlineDrag = null; inlineDragged = false;
   document.querySelector('#lightboxMeta').innerHTML = `<strong>${activeProject.title}</strong><br>${activeProject.category} · ${activeProject.type}<br>${activeProject.date}<br>${activeImage + 1} / ${activeProject.images.length}`;
   document.querySelector('#lightboxThumbs').innerHTML = activeProject.images.map((item, index) => `<button class="${index === activeImage ? 'active' : ''}" data-image-index="${index}" aria-label="Open image ${index + 1}"><img src="${asset(item)}" alt=""></button>`).join('');
 }
@@ -57,7 +57,7 @@ document.querySelector('#lightbox').addEventListener('wheel', event => { event.p
 document.querySelector('#lightboxImage').addEventListener('click', event => { event.stopPropagation(); if (inlineDragged) { inlineDragged = false; return; } const image = event.currentTarget; image.classList.toggle('is-zoomed'); if (!image.classList.contains('is-zoomed')) { inlinePanX = 0; inlinePanY = 0; image.style.removeProperty('--pan-x'); image.style.removeProperty('--pan-y'); } });
 document.querySelector('.lightbox-stage').addEventListener('pointerdown', event => { const image = document.querySelector('#lightboxImage'); if (event.button !== 0 || !image.classList.contains('is-zoomed')) return; event.preventDefault(); inlineDrag = {x:event.clientX, y:event.clientY, panX:inlinePanX, panY:inlinePanY}; event.currentTarget.setPointerCapture(event.pointerId); image.style.cursor = 'grabbing'; });
 document.querySelector('.lightbox-stage').addEventListener('pointermove', event => { if (!inlineDrag || (event.buttons & 1) === 0) return; const deltaX = event.clientX - inlineDrag.x; const deltaY = event.clientY - inlineDrag.y; if (Math.abs(deltaX) > 2 || Math.abs(deltaY) > 2) inlineDragged = true; inlinePanX = inlineDrag.panX + deltaX; inlinePanY = inlineDrag.panY + deltaY; const image = document.querySelector('#lightboxImage'); image.style.setProperty('--pan-x', `${inlinePanX}px`); image.style.setProperty('--pan-y', `${inlinePanY}px`); });
-const stopInlineDrag = () => { inlineDrag = null; const image = document.querySelector('#lightboxImage'); if (image.classList.contains('is-zoomed')) image.style.cursor = 'grab'; };
+const stopInlineDrag = () => { inlineDrag = null; const image = document.querySelector('#lightboxImage'); if (image.classList.contains('is-zoomed')) image.style.cursor = 'zoom-out'; };
 document.querySelector('.lightbox-stage').addEventListener('pointerup', stopInlineDrag);
 document.querySelector('.lightbox-stage').addEventListener('pointercancel', stopInlineDrag);
 document.querySelector('.lightbox-stage').addEventListener('lostpointercapture', stopInlineDrag);
