@@ -21,3 +21,4 @@
 :root{--blue:#d3b77d}.tool-list span:nth-child(-n+3){border-color:rgba(211,183,125,.7)}
 .works-rule,.about-line{background:#5c4b30}.about-label,#contact>.about-label{color:#211b12!important}
 .zoom-canvas img{-webkit-user-drag:none}
+.lightbox-stage img{transition:transform .25s ease}.lightbox-stage img.is-zoomed{transform:scale(1.3);cursor:zoom-out}
