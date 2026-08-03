@@ -21,4 +21,4 @@
 :root{--blue:#d3b77d}.tool-list span:nth-child(-n+3){border-color:rgba(211,183,125,.7)}
 .works-rule,.about-line{background:#5c4b30}.about-label,#contact>.about-label{color:#211b12!important}
 .zoom-canvas img{-webkit-user-drag:none}
-.lightbox-stage{overflow:hidden}.lightbox-stage img{transition:transform .25s ease}.lightbox-stage img.is-zoomed{transform:scale(1.7);cursor:zoom-out}
+.lightbox-stage{overflow:hidden}.lightbox-stage img{transition:transform .25s ease;-webkit-user-drag:none}.lightbox-stage img.is-zoomed{transform:translate(var(--pan-x,0),var(--pan-y,0)) scale(1.7);cursor:grab}
