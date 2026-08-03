@@ -62,5 +62,7 @@ document.querySelector('.lightbox-stage').addEventListener('pointerup', stopInli
 document.querySelector('.lightbox-stage').addEventListener('pointercancel', stopInlineDrag);
 document.querySelector('.lightbox-stage').addEventListener('lostpointercapture', stopInlineDrag);
 document.querySelector('#lightboxImage').addEventListener('dragstart', event => event.preventDefault());
+document.addEventListener('keydown', event => { if (event.key === 'Escape') { const viewer = document.querySelector('#lightbox'); if (viewer.open) { event.preventDefault(); viewer.close(); } } });
+document.querySelector('#lightbox').addEventListener('cancel', event => { event.preventDefault(); event.currentTarget.close(); });
 renderProjects();
 startHeroSlideshow();
