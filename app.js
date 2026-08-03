@@ -5,8 +5,10 @@ const projects = [
   {id:'chair', title:'CHAIR', category:'Personal', type:'Props', date:'2026.04', sortKey:202604, cover:'Personal/202604_Chair/Main.jpg', images:['Personal/202604_Chair/Main.jpg','Personal/202604_Chair/Chair.jpg','Personal/202604_Chair/Chair(2).jpg','Personal/202604_Chair/Chair(4).jpg','Personal/202604_Chair/Chair(5).jpg']},
   {id:'sofa', title:'SOFA', category:'Personal', type:'Props', date:'2026.06', sortKey:202606, cover:'Personal/202606_Sofa/Main.jpg', images:['Personal/202606_Sofa/Main.jpg','Personal/202606_Sofa/Sofa(1).jpg']},
   {id:'axegun', title:'AXE GUN', category:'Personal', type:'Props', date:'2026.07', sortKey:202607, cover:'Personal/202607_AxeGun/Main.jpg', images:['Personal/202607_AxeGun/Main.jpg','Personal/202607_AxeGun/AxeGun.jpg','Personal/202607_AxeGun/AxeGun(1).jpg','Personal/202607_AxeGun/AxeGun(2).jpg','Personal/202607_AxeGun/AxeGun(4).jpg']},
+  {id:'rock3', title:'ROCK STUDY 03', category:'ZBrush', type:'ZBrush', date:'2026.06', sortKey:202606, cover:'Personal/ZBrush/202606_Rock3/Rock3(1).jpg', images:['Personal/ZBrush/202606_Rock3/Rock3(1).jpg','Personal/ZBrush/202606_Rock3/Rock3(2).jpg']},
   {id:'tile', title:'TILE STUDY 02', category:'ZBrush', type:'ZBrush', date:'2024.12', sortKey:202412, cover:'Personal/ZBrush/202412_Tile2/Main.jpg', images:['Personal/ZBrush/202412_Tile2/Main.jpg','Personal/ZBrush/202412_Tile2/Tile2.jpg']},
-  {id:'rock', title:'ROCK STUDY', category:'ZBrush', type:'ZBrush', date:'2026.03', sortKey:202603, cover:'Personal/ZBrush/202603_Rock/Rock.jpg', images:['Personal/ZBrush/202603_Rock/Rock.jpg']}
+  {id:'rock', title:'ROCK STUDY', category:'ZBrush', type:'ZBrush', date:'2026.03', sortKey:202603, cover:'Personal/ZBrush/202603_Rock/Rock.jpg', images:['Personal/ZBrush/202603_Rock/Rock.jpg']},
+  {id:'tilea', title:'TILE STUDY 01', category:'ZBrush', type:'ZBrush', date:'2024.08', sortKey:202408, cover:'Personal/ZBrush/202408_TileA/Main.jpg', images:['Personal/ZBrush/202408_TileA/Main.jpg','Personal/ZBrush/202408_TileA/TileA.jpg']}
 ];
 const byId = Object.fromEntries(projects.map(project => [project.id, project]));
 const asset = path => encodeURI(path);
