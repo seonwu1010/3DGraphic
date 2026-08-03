@@ -8,26 +8,25 @@ const projects = [
 const byId = Object.fromEntries(projects.map(project => [project.id, project]));
 const asset = path => encodeURI(path);
 let activeProject, activeImage = 0;
-let inlinePanX = 0, inlinePanY = 0, inlineDrag = null, inlineDragged = false;
-const orderedProjects = () => {
-  const categoryOrder = {Personal: 0, ZBrush: 1};
-  return [...projects].sort((a, b) => categoryOrder[a.category] - categoryOrder[b.category] || b.sortKey - a.sortKey);
-};
+let zoomScale = 1, zoomX = 0, zoomY = 0, dragStart = null;
 
 function renderProjects() {
-  const ordered = orderedProjects();
+  const categoryOrder = {Personal: 0, ZBrush: 1};
+  const ordered = [...projects].sort((a, b) => categoryOrder[a.category] - categoryOrder[b.category] || b.sortKey - a.sortKey);
   document.querySelector('#projectCount').innerHTML = `${projects.length} Projects<br />Click → Detail`;
   document.querySelector('#personalGrid').innerHTML = ordered.map(project => `<article class="project-card" data-project="${project.id}"><img src="${asset(project.cover)}" alt="${project.title}" loading="lazy"><div class="card-info"><span class="card-title">${project.title}</span><span class="card-views">${project.category} · ${project.type}</span></div></article>`).join('');
 }
 function openProject(id) { activeProject = byId[id]; activeImage = 0; document.querySelector('#lightbox').showModal(); renderLightbox(); }
 function renderLightbox() {
   const path = activeProject.images[activeImage];
-  const image = document.querySelector('#lightboxImage'); image.src = asset(path); image.alt = activeProject.title; image.classList.remove('is-zoomed'); image.style.removeProperty('--pan-x'); image.style.removeProperty('--pan-y'); inlinePanX = 0; inlinePanY = 0;
+  const image = document.querySelector('#lightboxImage'); image.src = asset(path); image.alt = activeProject.title;
   document.querySelector('#lightboxMeta').innerHTML = `<strong>${activeProject.title}</strong><br>${activeProject.category} · ${activeProject.type}<br>${activeProject.date}<br>${activeImage + 1} / ${activeProject.images.length}`;
   document.querySelector('#lightboxThumbs').innerHTML = activeProject.images.map((item, index) => `<button class="${index === activeImage ? 'active' : ''}" data-image-index="${index}" aria-label="Open image ${index + 1}"><img src="${asset(item)}" alt=""></button>`).join('');
 }
 function moveImage(step) { activeImage = (activeImage + step + activeProject.images.length) % activeProject.images.length; renderLightbox(); }
-function moveProject(step) { const ordered = orderedProjects(); const current = ordered.findIndex(project => project.id === activeProject.id); activeProject = ordered[(current + step + ordered.length) % ordered.length]; activeImage = 0; renderLightbox(); }
+function updateZoom() { const image = document.querySelector('#zoomImage'); image.style.transform = `translate(${zoomX}px, ${zoomY}px) scale(${zoomScale})`; image.style.cursor = zoomScale > 1 ? 'grab' : 'zoom-in'; }
+function openZoom() { const image = document.querySelector('#zoomImage'); image.src = asset(activeProject.images[activeImage]); image.alt = activeProject.title; zoomScale = 1; zoomX = 0; zoomY = 0; const viewer = document.querySelector('#zoomViewer'); if (!viewer.open) viewer.showModal(); updateZoom(); }
+function closeZoom() { const viewer = document.querySelector('#zoomViewer'); if (viewer.open) viewer.close(); }
 function toast(message) { const element = document.querySelector('#toast'); element.textContent = message; element.classList.add('visible'); clearTimeout(toast.timer); toast.timer = setTimeout(() => element.classList.remove('visible'), 1800); }
 function startHeroSlideshow() {
   const slides = [...document.querySelectorAll('.hero-slide')];
@@ -48,18 +47,21 @@ document.addEventListener('click', event => {
   const nav = event.target.closest('[data-nav]'); if (nav) { event.preventDefault(); document.querySelector(`#${nav.dataset.nav}`).scrollIntoView({behavior:'smooth'}); return; }
   const card = event.target.closest('[data-project]'); if (card) { openProject(card.dataset.project); return; }
   const thumb = event.target.closest('[data-image-index]'); if (thumb) { activeImage = Number(thumb.dataset.imageIndex); renderLightbox(); return; }
+  if (event.target.closest('#zoomClose')) { closeZoom(); return; }
   if (event.target.closest('.lightbox-close')) document.querySelector('#lightbox').close();
-  if (event.target.closest('.previous')) moveProject(-1);
-  if (event.target.closest('.next')) moveProject(1);
+  if (event.target.closest('.previous')) moveImage(-1);
+  if (event.target.closest('.next')) moveImage(1);
   if (event.target.closest('#copyEmail')) navigator.clipboard.writeText('seonwu1010@naver.com').then(() => toast('Email address copied.'));
 });
 document.querySelector('#lightbox').addEventListener('wheel', event => { event.preventDefault(); moveImage(event.deltaY > 0 ? 1 : -1); }, {passive:false});
-document.querySelector('#lightboxImage').addEventListener('click', event => { event.stopPropagation(); if (inlineDragged) { inlineDragged = false; return; } const image = event.currentTarget; image.classList.toggle('is-zoomed'); if (!image.classList.contains('is-zoomed')) { inlinePanX = 0; inlinePanY = 0; image.style.removeProperty('--pan-x'); image.style.removeProperty('--pan-y'); } });
-document.querySelector('.lightbox-stage').addEventListener('pointerdown', event => { const image = document.querySelector('#lightboxImage'); if (event.button !== 0 || !image.classList.contains('is-zoomed')) return; event.preventDefault(); inlineDrag = {x:event.clientX, y:event.clientY, panX:inlinePanX, panY:inlinePanY}; event.currentTarget.setPointerCapture(event.pointerId); image.style.cursor = 'grabbing'; });
-document.querySelector('.lightbox-stage').addEventListener('pointermove', event => { if (!inlineDrag || (event.buttons & 1) === 0) return; const deltaX = event.clientX - inlineDrag.x; const deltaY = event.clientY - inlineDrag.y; if (Math.abs(deltaX) > 2 || Math.abs(deltaY) > 2) inlineDragged = true; inlinePanX = inlineDrag.panX + deltaX; inlinePanY = inlineDrag.panY + deltaY; const image = document.querySelector('#lightboxImage'); image.style.setProperty('--pan-x', `${inlinePanX}px`); image.style.setProperty('--pan-y', `${inlinePanY}px`); });
-const stopInlineDrag = () => { inlineDrag = null; const image = document.querySelector('#lightboxImage'); if (image.classList.contains('is-zoomed')) image.style.cursor = 'grab'; };
-document.querySelector('.lightbox-stage').addEventListener('pointerup', stopInlineDrag);
-document.querySelector('.lightbox-stage').addEventListener('pointercancel', stopInlineDrag);
-document.querySelector('.lightbox-stage').addEventListener('lostpointercapture', stopInlineDrag);
+document.querySelector('#lightboxImage').addEventListener('click', event => { event.stopPropagation(); openZoom(); });
+document.querySelector('#zoomCanvas').addEventListener('wheel', event => { event.preventDefault(); zoomScale = Math.min(5, Math.max(1, zoomScale + (event.deltaY < 0 ? .2 : -.2))); if (zoomScale === 1) { zoomX = 0; zoomY = 0; } updateZoom(); }, {passive:false});
+document.querySelector('#zoomCanvas').addEventListener('pointerdown', event => { if (zoomScale <= 1 || event.button !== 0) return; event.preventDefault(); dragStart = {x:event.clientX, y:event.clientY, zoomX, zoomY}; event.currentTarget.setPointerCapture(event.pointerId); document.querySelector('#zoomImage').style.cursor = 'grabbing'; });
+document.querySelector('#zoomCanvas').addEventListener('pointermove', event => { if (!dragStart || (event.buttons & 1) === 0) { if (dragStart) { dragStart = null; updateZoom(); } return; } zoomX = dragStart.zoomX + event.clientX - dragStart.x; zoomY = dragStart.zoomY + event.clientY - dragStart.y; updateZoom(); });
+document.querySelector('#zoomCanvas').addEventListener('pointerup', () => { dragStart = null; updateZoom(); });
+document.querySelector('#zoomCanvas').addEventListener('pointercancel', () => { dragStart = null; updateZoom(); });
+document.querySelector('#zoomCanvas').addEventListener('lostpointercapture', () => { dragStart = null; updateZoom(); });
+document.querySelector('#zoomImage').addEventListener('dragstart', event => event.preventDefault());
+document.addEventListener('keydown', event => { if (event.key === 'Escape') closeZoom(); });
 renderProjects();
 startHeroSlideshow();
