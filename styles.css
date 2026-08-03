@@ -23,3 +23,4 @@
 .zoom-canvas img{-webkit-user-drag:none}
 .lightbox-stage{overflow:hidden}.lightbox-stage img{transition:transform .25s ease;-webkit-user-drag:none}.lightbox-stage img.is-zoomed{transform:translate(var(--pan-x,0),var(--pan-y,0)) scale(1.7);cursor:grab}
 .lightbox{isolation:isolate}.lightbox::before{content:"";position:absolute;z-index:1;top:0;right:0;bottom:0;width:365px;background:#070707;border-left:1px solid #292929}.lightbox-stage{position:relative;z-index:0}.lightbox-meta,.lightbox-thumbs,.lightbox-close,.lightbox-nav{z-index:2}.lightbox-stage img.is-zoomed{transition:none;will-change:transform}@media(max-width:700px){.lightbox::before{display:none}}
+.lightbox #lightboxMeta,.lightbox #lightboxThumbs{position:absolute!important;z-index:3!important;display:flex!important;visibility:visible!important;opacity:1!important}.lightbox #lightboxMeta{display:block!important;color:#fff!important}.lightbox .lightbox-close,.lightbox .lightbox-nav{z-index:4!important}
