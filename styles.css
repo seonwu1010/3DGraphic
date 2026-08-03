@@ -28,5 +28,6 @@
 .about-grid{grid-template-columns:minmax(0,1fr);gap:0}.about-intro{max-width:950px}.about-intro .profile-panel{margin-top:28px}.about-intro .profile-panel dl{max-width:640px}
 .about-intro>p:not(.career-goal){max-width:none;white-space:nowrap}@media(max-width:700px){.about-intro>p:not(.career-goal){white-space:normal}}
 @media(min-width:701px){.project-grid{grid-auto-rows:360px}.project-card:nth-child(1),.project-card:nth-child(2){grid-column:span 6;grid-row:span 1}.project-card:nth-child(3),.project-card:nth-child(4),.project-card:nth-child(5),.project-card:nth-child(6),.project-card:nth-child(7),.project-card:nth-child(8){grid-column:span 4;grid-row:span 1}}
+@media(min-width:701px){.project-card:nth-child(1){grid-column:span 6}.project-card:nth-child(2){grid-column:span 3}.project-card:nth-child(3){grid-column:span 3}.project-card:nth-child(4){grid-column:span 4}.project-card:nth-child(5){grid-column:span 5}.project-card:nth-child(6){grid-column:span 3}.project-card:nth-child(7){grid-column:span 7}.project-card:nth-child(8){grid-column:span 3}}
 .lightbox-stage img.is-zoomed{cursor:zoom-out}
 .lightbox-stage.is-zoomed{cursor:zoom-out}
