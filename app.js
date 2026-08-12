@@ -9,6 +9,17 @@ const projects = [
   {id:'tile', title:'TILE STUDY', category:'ZBrush', type:'ZBrush', date:'2024', sortKey:202400, cover:'Personal/ZBrush/2024_Tile Study/Main.jpg', images:['Personal/ZBrush/2024_Tile Study/Main.jpg','Personal/ZBrush/2024_Tile Study/Tile2.jpg','Personal/ZBrush/2024_Tile Study/TileA.jpg']},
   {id:'rock', title:'ROCK STUDY', category:'ZBrush', type:'ZBrush', date:'2026.03', sortKey:202603, cover:'Personal/ZBrush/202603_Rock/Rock.jpg', images:['Personal/ZBrush/202603_Rock/Rock.jpg']}
 ];
+const projectDescriptions = {
+  scifi: '우주선 내부의 통제 구역을 콘셉트로 제작한 SF 환경 작업입니다. 반복되는 구조물과 패널, 배선 등의 디테일을 구성하고 금속 재질과 조명을 활용해 공간의 깊이감과 기계적인 분위기를 표현했습니다.',
+  crt: 'CRT 모니터와 레트로 게임기를 중심으로 구성한 개인 작업입니다. 다양한 소품과 그래픽 요소를 배치하고, 오래 사용한 플라스틱과 전자기기의 질감을 표현해 추억이 쌓인 게임 공간의 분위기를 구현했습니다.',
+  knife: '산업 현장에서 사용된 공구를 콘셉트로 제작한 나이프 프랍입니다. 금속의 용접 자국과 녹, 표면 스크래치와 손잡이의 마모를 더해 거칠고 실용적인 사용감을 표현했습니다.',
+  chair: '오래된 목제 의자를 제작한 개인 프랍 작업입니다. 휘어진 목재 구조와 표면의 마모를 세밀하게 표현하고, 천의 자연스러운 주름을 함께 구성해 시간의 흔적이 느껴지도록 제작했습니다.',
+  sofa: '빈티지 가죽 암체어를 기반으로 제작한 프랍 작업입니다. 가죽의 주름과 갈라짐, 눌린 쿠션과 가장자리의 마모를 표현해 오랫동안 사용된 가구의 묵직한 질감을 구현했습니다.',
+  axegun: '도끼와 총기의 구조를 결합해 디자인한 판타지 무기 프랍입니다. 금속과 목재, 가죽 등 서로 다른 재질을 조화롭게 구성하고 전투로 생긴 흠집과 마모를 더해 무기의 무게감과 사용감을 강조했습니다.',
+  rock3: '서로 다른 형태의 암석 두 종류를 직접 제작하고, 이를 반복적으로 조립하여 완성한 암석 지형 작업입니다. 제한된 에셋만으로 다양한 실루엣과 규모감을 구성해 효율적인 환경 제작 방식을 연구했습니다.',
+  tile: '판타지 환경에 활용할 수 있는 석재 바닥 타일을 제작한 작업입니다. 반복 가능한 구조 안에 다양한 크기의 돌과 문양을 배치하고, 표면의 균열과 마모를 더해 자연스러운 변화를 표현했습니다.',
+  rock: '길게 솟은 암석의 형태와 표면을 연구한 ZBrush 작업입니다. 여러 방향에서 보아도 자연스러운 실루엣을 유지하도록 덩어리를 구성하고, 굴곡과 균열을 조각해 단단한 암석의 질감을 표현했습니다.'
+};
 const byId = Object.fromEntries(projects.map(project => [project.id, project]));
 const asset = path => encodeURI(path);
 let activeProject, activeImage = 0;
@@ -27,7 +38,7 @@ function openProject(id) { activeProject = byId[id]; activeImage = 0; document.q
 function renderLightbox() {
   const path = activeProject.images[activeImage];
   const image = document.querySelector('#lightboxImage'); image.src = asset(path); image.alt = activeProject.title; image.classList.remove('is-zoomed'); image.style.removeProperty('--pan-x'); image.style.removeProperty('--pan-y'); image.style.removeProperty('cursor'); const stage = document.querySelector('.lightbox-stage'); stage.classList.remove('is-zoomed'); stage.style.removeProperty('cursor'); inlinePanX = 0; inlinePanY = 0; inlineDrag = null; inlineDragged = false;
-  document.querySelector('#lightboxMeta').innerHTML = `<strong>${activeProject.title}</strong><br>${activeProject.category} · ${activeProject.type}<br>${activeProject.date}<br>${activeImage + 1} / ${activeProject.images.length}`;
+  document.querySelector('#lightboxMeta').innerHTML = `<strong>${activeProject.title}</strong><br>${activeProject.category} · ${activeProject.type}<br>${activeProject.date}<p class="project-description">${projectDescriptions[activeProject.id]}</p><span class="image-position">${activeImage + 1} / ${activeProject.images.length}</span>`;
   document.querySelector('#lightboxThumbs').innerHTML = activeProject.images.map((item, index) => `<button class="${index === activeImage ? 'active' : ''}" data-image-index="${index}" aria-label="Open image ${index + 1}"><img src="${asset(item)}" alt=""></button>`).join('');
 }
 function moveImage(step) { activeImage = (activeImage + step + activeProject.images.length) % activeProject.images.length; renderLightbox(); }

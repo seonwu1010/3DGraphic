@@ -31,3 +31,4 @@
 @media(min-width:701px){.project-card:nth-child(1){grid-column:span 6}.project-card:nth-child(2){grid-column:span 3}.project-card:nth-child(3){grid-column:span 3}.project-card:nth-child(4){grid-column:span 4}.project-card:nth-child(5){grid-column:span 5}.project-card:nth-child(6){grid-column:span 3}.project-card:nth-child(7){grid-column:span 4}.project-card:nth-child(8){grid-column:span 4}.project-card:nth-child(9){grid-column:span 4}.project-card:nth-child(10){grid-column:span 3}}
 .lightbox-stage img.is-zoomed{cursor:zoom-out}
 .lightbox-stage.is-zoomed{cursor:zoom-out}
+.project-description{margin:12px 0;color:#b8b5ae;font:400 12px/1.65 "Noto Sans KR","Instrument Sans",sans-serif;letter-spacing:-.025em;word-break:keep-all}.image-position{display:block;font:500 12px/1.7 "DM Mono",monospace}
