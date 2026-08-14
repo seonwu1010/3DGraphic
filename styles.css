@@ -32,3 +32,4 @@
 .lightbox-stage img.is-zoomed{cursor:zoom-out}
 .lightbox-stage.is-zoomed{cursor:zoom-out}
 .project-description{margin:12px 0;color:#b8b5ae;font:400 12px/1.65 "Noto Sans KR","Instrument Sans",sans-serif;letter-spacing:-.025em;word-break:keep-all}.image-position{display:block;font:500 12px/1.7 "DM Mono",monospace}
+@media(min-width:701px){.viewer-sidebar .lightbox-thumbs{overflow-x:hidden;overflow-y:scroll;scrollbar-gutter:stable;scrollbar-width:thin;scrollbar-color:#777 #171717}.viewer-sidebar .lightbox-thumbs::-webkit-scrollbar{width:8px}.viewer-sidebar .lightbox-thumbs::-webkit-scrollbar-track{background:#171717}.viewer-sidebar .lightbox-thumbs::-webkit-scrollbar-thumb{background:#777;border:2px solid #171717;border-radius:8px}.viewer-sidebar .lightbox-thumbs::-webkit-scrollbar-thumb:hover{background:#aaa}}
