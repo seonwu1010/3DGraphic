@@ -22,6 +22,7 @@ const projectDescriptions = {
 };
 const byId = Object.fromEntries(projects.map(project => [project.id, project]));
 const asset = path => encodeURI(path);
+const displayedCategory = project => project.category === 'ZBrush' ? 'Personal' : project.category;
 let activeProject, activeImage = 0;
 let inlinePanX = 0, inlinePanY = 0, inlineDrag = null, inlineDragged = false;
 const orderedProjects = () => {
@@ -32,13 +33,13 @@ const orderedProjects = () => {
 function renderProjects() {
   const ordered = orderedProjects();
   document.querySelector('#projectCount').innerHTML = `${projects.length} Projects<br />Click → Detail`;
-  document.querySelector('#personalGrid').innerHTML = ordered.map(project => `<article class="project-card" data-project="${project.id}"><img src="${asset(project.cover)}" alt="${project.title}" loading="lazy"><div class="card-info"><span class="card-heading"><span class="card-title">${project.title}</span><span class="card-date">${project.date}</span></span><span class="card-views">${project.category} · ${project.type}</span></div></article>`).join('');
+  document.querySelector('#personalGrid').innerHTML = ordered.map(project => `<article class="project-card" data-project="${project.id}"><img src="${asset(project.cover)}" alt="${project.title}" loading="lazy"><div class="card-info"><span class="card-heading"><span class="card-title">${project.title}</span><span class="card-date">${project.date}</span></span><span class="card-views">${displayedCategory(project)} · ${project.type}</span></div></article>`).join('');
 }
 function openProject(id) { activeProject = byId[id]; activeImage = 0; document.querySelector('#lightbox').showModal(); renderLightbox(); }
 function renderLightbox() {
   const path = activeProject.images[activeImage];
   const image = document.querySelector('#lightboxImage'); image.src = asset(path); image.alt = activeProject.title; image.classList.remove('is-zoomed'); image.style.removeProperty('--pan-x'); image.style.removeProperty('--pan-y'); image.style.removeProperty('cursor'); const stage = document.querySelector('.lightbox-stage'); stage.classList.remove('is-zoomed'); stage.style.removeProperty('cursor'); inlinePanX = 0; inlinePanY = 0; inlineDrag = null; inlineDragged = false;
-  document.querySelector('#lightboxMeta').innerHTML = `<strong>${activeProject.title}</strong><br>${activeProject.category} · ${activeProject.type}<br>${activeProject.date}<p class="project-description">${projectDescriptions[activeProject.id]}</p><span class="image-position">${activeImage + 1} / ${activeProject.images.length}</span>`;
+  document.querySelector('#lightboxMeta').innerHTML = `<strong>${activeProject.title}</strong><br>${displayedCategory(activeProject)} · ${activeProject.type}<br>${activeProject.date}<p class="project-description">${projectDescriptions[activeProject.id]}</p><span class="image-position">${activeImage + 1} / ${activeProject.images.length}</span>`;
   const thumbs = document.querySelector('#lightboxThumbs');
   thumbs.innerHTML = activeProject.images.map((item, index) => `<button class="${index === activeImage ? 'active' : ''}" data-image-index="${index}" aria-label="Open image ${index + 1}"><img src="${asset(item)}" alt=""></button>`).join('');
   const activeThumb = thumbs.querySelector('.active');
