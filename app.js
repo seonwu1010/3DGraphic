@@ -39,7 +39,10 @@ function renderLightbox() {
   const path = activeProject.images[activeImage];
   const image = document.querySelector('#lightboxImage'); image.src = asset(path); image.alt = activeProject.title; image.classList.remove('is-zoomed'); image.style.removeProperty('--pan-x'); image.style.removeProperty('--pan-y'); image.style.removeProperty('cursor'); const stage = document.querySelector('.lightbox-stage'); stage.classList.remove('is-zoomed'); stage.style.removeProperty('cursor'); inlinePanX = 0; inlinePanY = 0; inlineDrag = null; inlineDragged = false;
   document.querySelector('#lightboxMeta').innerHTML = `<strong>${activeProject.title}</strong><br>${activeProject.category} · ${activeProject.type}<br>${activeProject.date}<p class="project-description">${projectDescriptions[activeProject.id]}</p><span class="image-position">${activeImage + 1} / ${activeProject.images.length}</span>`;
-  document.querySelector('#lightboxThumbs').innerHTML = activeProject.images.map((item, index) => `<button class="${index === activeImage ? 'active' : ''}" data-image-index="${index}" aria-label="Open image ${index + 1}"><img src="${asset(item)}" alt=""></button>`).join('');
+  const thumbs = document.querySelector('#lightboxThumbs');
+  thumbs.innerHTML = activeProject.images.map((item, index) => `<button class="${index === activeImage ? 'active' : ''}" data-image-index="${index}" aria-label="Open image ${index + 1}"><img src="${asset(item)}" alt=""></button>`).join('');
+  const activeThumb = thumbs.querySelector('.active');
+  requestAnimationFrame(() => activeThumb?.scrollIntoView({behavior:'smooth', block:'nearest', inline:'nearest'}));
 }
 function moveImage(step) { activeImage = (activeImage + step + activeProject.images.length) % activeProject.images.length; renderLightbox(); }
 function moveProject(step) { const ordered = orderedProjects(); const current = ordered.findIndex(project => project.id === activeProject.id); activeProject = ordered[(current + step + ordered.length) % ordered.length]; activeImage = 0; renderLightbox(); }
