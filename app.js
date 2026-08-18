@@ -5,7 +5,8 @@ const projects = [
   {id:'chair', title:'CHAIR', category:'Personal', type:'Props', date:'2026.04', sortKey:202604, cover:'Personal/202604_Chair/1.jpg', images:['Personal/202604_Chair/1.jpg','Personal/202604_Chair/2.jpg','Personal/202604_Chair/3.jpg','Personal/202604_Chair/4.jpg','Personal/202604_Chair/5.jpg']},
   {id:'sofa', title:'SOFA', category:'Personal', type:'Props', date:'2026.06', sortKey:202606, cover:'Personal/202606_Sofa/1.jpg', images:['Personal/202606_Sofa/1.jpg','Personal/202606_Sofa/2.jpg']},
   {id:'axegun', title:'AXE GUN', category:'Personal', type:'Props', date:'2026.07', sortKey:202607, cover:'Personal/202607_AxeGun/1.jpg', images:['Personal/202607_AxeGun/1.jpg','Personal/202607_AxeGun/2.jpg','Personal/202607_AxeGun/3.jpg','Personal/202607_AxeGun/4.jpg','Personal/202607_AxeGun/5.jpg']},
-  {id:'rock3', title:'ROCK STUDY 03', category:'ZBrush', type:'ZBrush', date:'2026.06', sortKey:202606, cover:'Personal/ZBrush/202606_Rock3/1.jpg', images:['Personal/ZBrush/202606_Rock3/1.jpg','Personal/ZBrush/202606_Rock3/2.jpg','Personal/ZBrush/202606_Rock3/3.jpg','Personal/ZBrush/202606_Rock3/4.jpg']},
+  {id:'rock3', title:'ROCK STUDY 03', category:'ZBrush', type:'ZBrush', date:'2026.06', sortKey:202606, cover:'Personal/ZBrush/202606_Rock3/1.jpg', images:['Personal/ZBrush/202606_Rock3/1.jpg','Personal/ZBrush/202606_Rock3/2.jpg','Personal/ZBrush/202606_Rock3/3.jpg','Personal/ZBrush/202606_Rock3/4.jpg','Personal/ZBrush/202606_Rock3/5.jpg']},
+  {id:'rock2', title:'ROCK STUDY 02', category:'ZBrush', type:'ZBrush', date:'2026.04', sortKey:202604, cover:'Personal/ZBrush/202604_Rock2/1.jpg', images:['Personal/ZBrush/202604_Rock2/1.jpg','Personal/ZBrush/202604_Rock2/2.jpg']},
   {id:'tile', title:'TILE STUDY', category:'ZBrush', type:'ZBrush', date:'2024', sortKey:202400, cover:'Personal/ZBrush/2024_Tile Study/1.jpg', images:['Personal/ZBrush/2024_Tile Study/1.jpg','Personal/ZBrush/2024_Tile Study/2.jpg','Personal/ZBrush/2024_Tile Study/3.jpg']},
   {id:'rock', title:'ROCK STUDY', category:'ZBrush', type:'ZBrush', date:'2026.03', sortKey:202603, cover:'Personal/ZBrush/202603_Rock/1.jpg', images:['Personal/ZBrush/202603_Rock/1.jpg']}
 ];
@@ -17,6 +18,7 @@ const projectDescriptions = {
   sofa: '빈티지 가죽 암체어를 기반으로 제작한 프랍 작업입니다. 가죽의 주름과 갈라짐, 눌린 쿠션과 가장자리의 마모를 표현해 오랫동안 사용된 가구의 묵직한 질감을 구현했습니다.',
   axegun: '도끼와 총기의 구조를 결합해 디자인한 판타지 무기 프랍입니다. 금속과 목재, 가죽 등 서로 다른 재질을 조화롭게 구성하고 전투로 생긴 흠집과 마모를 더해 무기의 무게감과 사용감을 강조했습니다.',
   rock3: '서로 다른 형태의 암석 두 종류를 직접 제작하고, 이를 반복적으로 조립하여 완성한 암석 지형 작업입니다. 제한된 에셋만으로 다양한 실루엣과 규모감을 구성해 효율적인 환경 제작 방식을 연구했습니다.',
+  rock2: '암석의 형태와 표면 변화를 연구한 ZBrush 작업입니다. 서로 다른 각도에서 실루엣과 덩어리감을 확인하고, 표면의 굴곡과 균열을 조각해 자연스러운 암석 질감을 표현했습니다.',
   tile: '판타지 환경에 활용할 수 있는 석재 바닥 타일을 제작한 작업입니다. 반복 가능한 구조 안에 다양한 크기의 돌과 문양을 배치하고, 표면의 균열과 마모를 더해 자연스러운 변화를 표현했습니다.',
   rock: '길게 솟은 암석의 형태와 표면을 연구한 ZBrush 작업입니다. 여러 방향에서 보아도 자연스러운 실루엣을 유지하도록 덩어리를 구성하고, 굴곡과 균열을 조각해 단단한 암석의 질감을 표현했습니다.'
 };
