@@ -1,26 +1,20 @@
 const projects = [
-  {id:'scifi', title:'SCI-FI CORRIDOR', category:'Personal', type:'Environment', date:'2024.07', sortKey:202407, cover:'Personal/202407_Sci-fi/1.jpg', images:['Personal/202407_Sci-fi/1.jpg','Personal/202407_Sci-fi/2.jpg','Personal/202407_Sci-fi/3.jpg','Personal/202407_Sci-fi/4.jpg','Personal/202407_Sci-fi/5.jpg']},
-  {id:'crt', title:'CRT & NES', category:'Personal', type:'Props', date:'2024.09', sortKey:202409, cover:'Personal/202409_CRT&Nes/1.jpg', images:['Personal/202409_CRT&Nes/1.jpg','Personal/202409_CRT&Nes/2.jpg','Personal/202409_CRT&Nes/3.jpg','Personal/202409_CRT&Nes/4.jpg','Personal/202409_CRT&Nes/5.jpg','Personal/202409_CRT&Nes/6.jpg','Personal/202409_CRT&Nes/7.jpg']},
+  {id:'scene2024', title:'2024 SCENE', category:'Personal', type:'Environment · Props', date:'2024', sortKey:202400, cover:'Personal/2024_Scene/202409_CRT&Nes/1.jpg', images:['Personal/2024_Scene/202409_CRT&Nes/1.jpg','Personal/2024_Scene/202409_CRT&Nes/2.jpg','Personal/2024_Scene/202409_CRT&Nes/3.jpg','Personal/2024_Scene/202409_CRT&Nes/4.jpg','Personal/2024_Scene/202409_CRT&Nes/5.jpg','Personal/2024_Scene/202409_CRT&Nes/6.jpg','Personal/2024_Scene/202409_CRT&Nes/7.jpg','Personal/2024_Scene/202407_Sci-fi/1.jpg','Personal/2024_Scene/202407_Sci-fi/2.jpg','Personal/2024_Scene/202407_Sci-fi/3.jpg','Personal/2024_Scene/202407_Sci-fi/4.jpg','Personal/2024_Scene/202407_Sci-fi/5.jpg']},
   {id:'knife', title:'UTILITY KNIFE', category:'Personal', type:'Props', date:'2026.03', sortKey:202603, cover:'Personal/202603_Knife/1.jpg', images:['Personal/202603_Knife/1.jpg','Personal/202603_Knife/2.jpg','Personal/202603_Knife/3.jpg','Personal/202603_Knife/4.jpg','Personal/202603_Knife/5.jpg','Personal/202603_Knife/6.jpg']},
   {id:'chair', title:'CHAIR', category:'Personal', type:'Props', date:'2026.04', sortKey:202604, cover:'Personal/202604_Chair/1.jpg', images:['Personal/202604_Chair/1.jpg','Personal/202604_Chair/2.jpg','Personal/202604_Chair/3.jpg','Personal/202604_Chair/4.jpg','Personal/202604_Chair/5.jpg']},
   {id:'sofa', title:'SOFA', category:'Personal', type:'Props', date:'2026.06', sortKey:202606, cover:'Personal/202606_Sofa/1.jpg', images:['Personal/202606_Sofa/1.jpg','Personal/202606_Sofa/2.jpg']},
   {id:'axegun', title:'AXE GUN', category:'Personal', type:'Props', date:'2026.07', sortKey:202607, cover:'Personal/202607_AxeGun/1.jpg', images:['Personal/202607_AxeGun/1.jpg','Personal/202607_AxeGun/2.jpg','Personal/202607_AxeGun/3.jpg','Personal/202607_AxeGun/4.jpg','Personal/202607_AxeGun/5.jpg']},
-  {id:'rock3', title:'ROCK STUDY 03', category:'ZBrush', type:'ZBrush', date:'2026.06', sortKey:202606, cover:'Personal/ZBrush/202606_Rock3/1.jpg', images:['Personal/ZBrush/202606_Rock3/1.jpg','Personal/ZBrush/202606_Rock3/2.jpg','Personal/ZBrush/202606_Rock3/3.jpg','Personal/ZBrush/202606_Rock3/4.jpg','Personal/ZBrush/202606_Rock3/5.jpg']},
-  {id:'rock2', title:'ROCK STUDY 02', category:'ZBrush', type:'ZBrush', date:'2026.04', sortKey:202604, cover:'Personal/ZBrush/202604_Rock2/1.jpg', images:['Personal/ZBrush/202604_Rock2/1.jpg','Personal/ZBrush/202604_Rock2/2.jpg']},
+  {id:'rockstudy', title:'ROCK STUDY', category:'ZBrush', type:'ZBrush', date:'2026', sortKey:202606, cover:'Personal/ZBrush/Rock Study/202606_Rock3/1.jpg', images:['Personal/ZBrush/Rock Study/202606_Rock3/1.jpg','Personal/ZBrush/Rock Study/202606_Rock3/2.jpg','Personal/ZBrush/Rock Study/202606_Rock3/3.jpg','Personal/ZBrush/Rock Study/202606_Rock3/4.jpg','Personal/ZBrush/Rock Study/202606_Rock3/5.jpg','Personal/ZBrush/Rock Study/202604_Rock2/1.jpg','Personal/ZBrush/Rock Study/202604_Rock2/2.jpg','Personal/ZBrush/Rock Study/202603_Rock/1.jpg']},
   {id:'tile', title:'TILE STUDY', category:'ZBrush', type:'ZBrush', date:'2024', sortKey:202400, cover:'Personal/ZBrush/2024_Tile Study/1.jpg', images:['Personal/ZBrush/2024_Tile Study/1.jpg','Personal/ZBrush/2024_Tile Study/2.jpg','Personal/ZBrush/2024_Tile Study/3.jpg']},
-  {id:'rock', title:'ROCK STUDY', category:'ZBrush', type:'ZBrush', date:'2026.03', sortKey:202603, cover:'Personal/ZBrush/202603_Rock/1.jpg', images:['Personal/ZBrush/202603_Rock/1.jpg']}
 ];
 const projectDescriptions = {
-  scifi: '우주선 내부의 통제 구역을 콘셉트로 제작한 SF 환경 작업입니다. 반복되는 구조물과 패널, 배선 등의 디테일을 구성하고 금속 재질과 조명을 활용해 공간의 깊이감과 기계적인 분위기를 표현했습니다.',
-  crt: 'CRT 모니터와 레트로 게임기를 중심으로 구성한 개인 작업입니다. 다양한 소품과 그래픽 요소를 배치하고, 오래 사용한 플라스틱과 전자기기의 질감을 표현해 추억이 쌓인 게임 공간의 분위기를 구현했습니다.',
+  scene2024: 'CRT 모니터와 레트로 게임기, SF 우주선 내부 환경을 중심으로 구성한 2024년 개인 작업입니다. 다양한 소품과 구조물, 패널과 배선의 디테일을 구성하고 재질과 조명을 활용해 각 공간의 분위기를 표현했습니다.',
   knife: '산업 현장에서 사용된 공구를 콘셉트로 제작한 나이프 프랍입니다. 금속의 용접 자국과 녹, 표면 스크래치와 손잡이의 마모를 더해 거칠고 실용적인 사용감을 표현했습니다.',
   chair: '오래된 목제 의자를 제작한 개인 프랍 작업입니다. 휘어진 목재 구조와 표면의 마모를 세밀하게 표현하고, 천의 자연스러운 주름을 함께 구성해 시간의 흔적이 느껴지도록 제작했습니다.',
   sofa: '빈티지 가죽 암체어를 기반으로 제작한 프랍 작업입니다. 가죽의 주름과 갈라짐, 눌린 쿠션과 가장자리의 마모를 표현해 오랫동안 사용된 가구의 묵직한 질감을 구현했습니다.',
   axegun: '도끼와 총기의 구조를 결합해 디자인한 판타지 무기 프랍입니다. 금속과 목재, 가죽 등 서로 다른 재질을 조화롭게 구성하고 전투로 생긴 흠집과 마모를 더해 무기의 무게감과 사용감을 강조했습니다.',
-  rock3: '서로 다른 형태의 암석 두 종류를 직접 제작하고, 이를 반복적으로 조립하여 완성한 암석 지형 작업입니다. 제한된 에셋만으로 다양한 실루엣과 규모감을 구성해 효율적인 환경 제작 방식을 연구했습니다.',
-  rock2: '하나의 암석 에셋을 직접 제작하고, 크기와 회전, 배치를 변형해 반복적으로 조립하여 완성한 암석 지형 작업입니다. 단일 에셋만으로 다양한 실루엣과 규모감을 구성하며 효율적인 환경 제작 방식을 연구했습니다.',
+  rockstudy: '서로 다른 형태의 암석 에셋을 직접 제작하고, 크기와 회전, 배치를 변형해 반복적으로 조립한 암석 지형 작업입니다. 제한된 에셋만으로 다양한 실루엣과 규모감을 구성하며 효율적인 환경 제작 방식을 연구했습니다.',
   tile: '판타지 환경에 활용할 수 있는 석재 바닥 타일을 제작한 작업입니다. 반복 가능한 구조 안에 다양한 크기의 돌과 문양을 배치하고, 표면의 균열과 마모를 더해 자연스러운 변화를 표현했습니다.',
-  rock: '길게 솟은 암석의 형태와 표면을 연구한 ZBrush 작업입니다. 여러 방향에서 보아도 자연스러운 실루엣을 유지하도록 덩어리를 구성하고, 굴곡과 균열을 조각해 단단한 암석의 질감을 표현했습니다.'
 };
 const byId = Object.fromEntries(projects.map(project => [project.id, project]));
 const asset = path => encodeURI(path);
