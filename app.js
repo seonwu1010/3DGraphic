@@ -24,7 +24,7 @@ const displayedCategory = project => project.category === 'ZBrush' ? 'Personal' 
 let activeProject, activeImage = 0;
 let inlinePanX = 0, inlinePanY = 0, inlineDrag = null, inlineDragged = false;
 const orderedProjects = () => {
-  const displayOrder = {axegun: 0, fantasyaxe: 1, carriage: 2, sofa: 3, chair: 4, knife: 5, zbrush: 6, scene2024: 7};
+  const displayOrder = {carriage: 0, fantasyaxe: 1, axegun: 2, sofa: 3, chair: 4, knife: 5, zbrush: 6, scene2024: 7};
   return [...projects].sort((a, b) => displayOrder[a.id] - displayOrder[b.id]);
 };
 
