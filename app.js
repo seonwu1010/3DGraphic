@@ -4,8 +4,9 @@ const projects = [
   {id:'chair', title:'CHAIR', category:'Personal', type:'Props', date:'2026.04', sortKey:202604, cover:'Personal/202604_Chair/1.jpg', images:['Personal/202604_Chair/1.jpg','Personal/202604_Chair/2.jpg','Personal/202604_Chair/3.jpg','Personal/202604_Chair/4.jpg','Personal/202604_Chair/5.jpg']},
   {id:'sofa', title:'SOFA', category:'Personal', type:'Props', date:'2026.06', sortKey:202606, cover:'Personal/202606_Sofa/1.jpg', images:['Personal/202606_Sofa/1.jpg','Personal/202606_Sofa/2.jpg']},
   {id:'axegun', title:'AXE GUN', category:'Personal', type:'Props', date:'2026.07', sortKey:202607, cover:'Personal/202607_AxeGun/1.jpg', images:['Personal/202607_AxeGun/1.jpg','Personal/202607_AxeGun/2.jpg','Personal/202607_AxeGun/3.jpg','Personal/202607_AxeGun/4.jpg','Personal/202607_AxeGun/5.jpg']},
-  {id:'rockstudy', title:'ROCK STUDY', category:'ZBrush', type:'ZBrush', date:'2026', sortKey:202606, cover:'Personal/ZBrush/Rock Study/202606_Rock3/1.jpg', images:['Personal/ZBrush/Rock Study/202606_Rock3/1.jpg','Personal/ZBrush/Rock Study/202606_Rock3/2.jpg','Personal/ZBrush/Rock Study/202606_Rock3/3.jpg','Personal/ZBrush/Rock Study/202606_Rock3/4.jpg','Personal/ZBrush/Rock Study/202606_Rock3/5.jpg','Personal/ZBrush/Rock Study/202604_Rock2/1.jpg','Personal/ZBrush/Rock Study/202604_Rock2/2.jpg','Personal/ZBrush/Rock Study/202603_Rock/1.jpg']},
-  {id:'tile', title:'TILE STUDY', category:'ZBrush', type:'ZBrush', date:'2024', sortKey:202400, cover:'Personal/ZBrush/2024_Tile Study/1.jpg', images:['Personal/ZBrush/2024_Tile Study/1.jpg','Personal/ZBrush/2024_Tile Study/2.jpg','Personal/ZBrush/2024_Tile Study/3.jpg']},
+  {id:'fantasyaxe', title:'FANTASY AXE', category:'Personal', type:'Props', date:'2026.08', sortKey:202608, cover:'Personal/202608_FantasyAxe/1.jpg', images:['Personal/202608_FantasyAxe/1.jpg','Personal/202608_FantasyAxe/2.jpg','Personal/202608_FantasyAxe/3.jpg']},
+  {id:'carriage', title:'CARRIAGE', category:'Personal', type:'Props', date:'2026.10', sortKey:202610, cover:'Personal/202610_Carriage/1.jpg', images:['Personal/202610_Carriage/1.jpg']},
+  {id:'zbrush', title:'ZBRUSH STUDY', category:'ZBrush', type:'ZBrush', date:'2024–2026', sortKey:202606, cover:'Personal/ZBrush/Zbrush/202606_Rock3/1.jpg', images:['Personal/ZBrush/Zbrush/202606_Rock3/1.jpg','Personal/ZBrush/Zbrush/202606_Rock3/2.jpg','Personal/ZBrush/Zbrush/202606_Rock3/3.jpg','Personal/ZBrush/Zbrush/202606_Rock3/4.jpg','Personal/ZBrush/Zbrush/202606_Rock3/5.jpg','Personal/ZBrush/Zbrush/202604_Rock2/1.jpg','Personal/ZBrush/Zbrush/202604_Rock2/2.jpg','Personal/ZBrush/Zbrush/202603_Rock/1.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/1.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/2.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/3.jpg']},
 ];
 const projectDescriptions = {
   scene2024: 'CRT 모니터와 레트로 게임기, SF 우주선 내부 환경을 중심으로 구성한 2024년 개인 작업입니다. 다양한 소품과 구조물, 패널과 배선의 디테일을 구성하고 재질과 조명을 활용해 각 공간의 분위기를 표현했습니다.',
@@ -13,8 +14,9 @@ const projectDescriptions = {
   chair: '오래된 목제 의자를 제작한 개인 프랍 작업입니다. 휘어진 목재 구조와 표면의 마모를 세밀하게 표현하고, 천의 자연스러운 주름을 함께 구성해 시간의 흔적이 느껴지도록 제작했습니다.',
   sofa: '빈티지 가죽 암체어를 기반으로 제작한 프랍 작업입니다. 가죽의 주름과 갈라짐, 눌린 쿠션과 가장자리의 마모를 표현해 오랫동안 사용된 가구의 묵직한 질감을 구현했습니다.',
   axegun: '도끼와 총기의 구조를 결합해 디자인한 판타지 무기 프랍입니다. 금속과 목재, 가죽 등 서로 다른 재질을 조화롭게 구성하고 전투로 생긴 흠집과 마모를 더해 무기의 무게감과 사용감을 강조했습니다.',
-  rockstudy: '서로 다른 형태의 암석 에셋을 직접 제작하고, 크기와 회전, 배치를 변형해 반복적으로 조립한 암석 지형 작업입니다. 제한된 에셋만으로 다양한 실루엣과 규모감을 구성하며 효율적인 환경 제작 방식을 연구했습니다.',
-  tile: '판타지 환경에 활용할 수 있는 석재 바닥 타일을 제작한 작업입니다. 반복 가능한 구조 안에 다양한 크기의 돌과 문양을 배치하고, 표면의 균열과 마모를 더해 자연스러운 변화를 표현했습니다.',
+  fantasyaxe: '붉은 보석 장식과 비대칭 실루엣을 중심으로 디자인한 판타지 도끼 프랍입니다. 금속의 마모와 표면 스크래치, 장식 부위의 대비를 구성해 무기의 존재감과 재질감을 표현했습니다.',
+  carriage: '판타지 세계관의 운송 마차를 제작한 환경 프랍 작업입니다. 목재와 금속 구조, 천막과 밧줄, 적재물의 재질을 구성하고 표면의 마모를 더해 오랜 시간 사용된 이동 수단의 분위기를 표현했습니다.',
+  zbrush: '암석과 타일의 형태·표면을 연구한 ZBrush 작업 모음입니다. 암석 에셋은 크기와 회전, 배치를 변형해 다양한 실루엣의 지형으로 조립했고, 타일은 반복 가능한 구조 안에 돌의 크기와 문양, 균열과 마모를 구성했습니다.',
 };
 const byId = Object.fromEntries(projects.map(project => [project.id, project]));
 const asset = path => encodeURI(path);
@@ -22,7 +24,7 @@ const displayedCategory = project => project.category === 'ZBrush' ? 'Personal' 
 let activeProject, activeImage = 0;
 let inlinePanX = 0, inlinePanY = 0, inlineDrag = null, inlineDragged = false;
 const orderedProjects = () => {
-  const displayOrder = {axegun: 0, sofa: 1, chair: 2, knife: 3, rockstudy: 4, tile: 5, scene2024: 6};
+  const displayOrder = {axegun: 0, fantasyaxe: 1, carriage: 2, sofa: 3, chair: 4, knife: 5, zbrush: 6, scene2024: 7};
   return [...projects].sort((a, b) => displayOrder[a.id] - displayOrder[b.id]);
 };
 
