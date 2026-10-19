@@ -43,15 +43,13 @@
 .university{scroll-margin-top:68px;padding-top:clamp(80px,7vw,135px)}
 .university .section-title h2{font-size:clamp(48px,5.5vw,106px);line-height:.9;letter-spacing:-.07em}
 .section-title .project-count{font:10px/1.6 "DM Mono",monospace;letter-spacing:.1em;text-align:right;color:#888}
-.university-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.university-placeholder{position:relative;display:flex;min-height:320px;flex-direction:column;justify-content:flex-end;padding:30px;background:#10100f;border-top:1px solid #29271f}
-.university-number{position:absolute;top:26px;left:30px;color:#6f6859;font:11px "DM Mono",monospace;letter-spacing:.1em}
-.university-status{color:#817969;font:10px "DM Mono",monospace;letter-spacing:.14em}
-.university-placeholder h3{margin:14px 0 0;color:#d9d5cb;font-size:clamp(24px,2.4vw,42px);font-weight:500;letter-spacing:-.04em}
-.university-video-card{overflow:hidden;isolation:isolate}
-.university-preview{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover}
-.university-video-card::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(0,0,0,.2),rgba(0,0,0,.08) 25%,rgba(0,0,0,.88))}
-.university-video-card .university-number,.university-video-card .university-status{color:#d3b77d}
-.university-video-card h3{color:#f1f0ed}
-.university-copy p{max-width:420px;margin:12px 0 0;color:#d0ccc3;font:400 13px/1.7 "Noto Sans KR","Instrument Sans",sans-serif;letter-spacing:-.025em;word-break:keep-all}
-@media(max-width:700px){.university{scroll-margin-top:56px}.university .section-title h2{font-size:clamp(38px,10vw,70px);margin-top:0}.university .section-title .project-count{grid-column:2;margin-top:0}.university-grid{grid-template-columns:1fr;gap:5px}.university-placeholder{min-height:230px;padding:24px}.university-number{top:24px;left:24px}}
+
+.university-grid .project-card:nth-child(n){grid-column:span 8;grid-row:span 1}
+.project-card video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.project-card:hover video{transform:scale(1.04)}
+.pending-preview{display:grid;place-items:center;height:100%;color:#817969;font:11px "DM Mono",monospace;letter-spacing:.14em}
+#lightboxVideo{width:100%;height:100%;object-fit:contain}
+#lightboxEmpty{color:#9b9b98;font:14px "DM Mono",monospace}
+.lightbox-stage [hidden]{display:none!important}
+.lightbox-thumbs video{width:100%;height:100%;object-fit:cover;pointer-events:none}
+@media(max-width:700px){.university .section-title h2{font-size:10vw}.university-grid .project-card:nth-child(n){grid-column:span 2;grid-row:span 1}}

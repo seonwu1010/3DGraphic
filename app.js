@@ -8,7 +8,18 @@ const projects = [
   {id:'carriage', title:'CARRIAGE', category:'Personal', type:'Props', date:'2026.10', sortKey:202610, cover:'Personal/202610_Carriage/1.jpg', images:['Personal/202610_Carriage/1.jpg']},
   {id:'zbrush', title:'ZBRUSH STUDY', category:'ZBrush', type:'ZBrush', date:'2024–2026', sortKey:202606, cover:'Personal/ZBrush/Zbrush/202606_Rock3/1.jpg', images:['Personal/ZBrush/Zbrush/202606_Rock3/1.jpg','Personal/ZBrush/Zbrush/202606_Rock3/2.jpg','Personal/ZBrush/Zbrush/202606_Rock3/3.jpg','Personal/ZBrush/Zbrush/202606_Rock3/4.jpg','Personal/ZBrush/Zbrush/202606_Rock3/5.jpg','Personal/ZBrush/Zbrush/202604_Rock2/1.jpg','Personal/ZBrush/Zbrush/202604_Rock2/2.jpg','Personal/ZBrush/Zbrush/202603_Rock/1.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/1.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/2.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/3.jpg']},
 ];
+const universityProjects = [
+  {id:'3drive', title:'3Drive', category:'University', type:'Project', date:'', cover:'University Project/3Drive/PV.mp4', images:['University Project/3Drive/PV.mp4']},
+  {id:'kirna', title:'Kirna', category:'University', type:'Project', date:'', images:[]},
+  {id:'puangjump', title:'Puang Jump', category:'University', type:'Project', date:'', images:[]},
+];
+const isVideo = path => /\.mp4$/i.test(path || '');
+const previewMedia = (path, title) => !path ? '<span class="pending-preview">COMING SOON</span>' : isVideo(path) ? `<video src="${asset(path)}" autoplay muted loop playsinline preload="metadata" aria-label="${title}"></video>` : `<img src="${asset(path)}" alt="${title}" loading="lazy">`;
+const projectCard = project => `<article class="project-card" data-project="${project.id}" tabindex="0" role="button" aria-label="Open ${project.title}">${previewMedia(project.cover, project.title)}<div class="card-info"><span class="card-heading"><span class="card-title">${project.title}</span><span class="card-date">${project.date}</span></span><span class="card-views">${displayedCategory(project)} · ${project.type}</span></div></article>`;
 const projectDescriptions = {
+  '3drive': '대학에서 진행한 3Drive 프로젝트입니다. 주요 장면과 프로젝트의 분위기를 프리뷰 영상으로 소개합니다.',
+  kirna: '대학에서 진행한 Kirna 프로젝트입니다. 작업 내용과 결과물을 준비 중입니다.',
+  puangjump: '대학에서 진행한 Puang Jump 프로젝트입니다. 작업 내용과 결과물을 준비 중입니다.',
   scene2024: 'CRT 모니터와 레트로 게임기, SF 우주선 내부 환경을 중심으로 구성한 2024년 개인 작업입니다. 다양한 소품과 구조물, 패널과 배선의 디테일을 구성하고 재질과 조명을 활용해 각 공간의 분위기를 표현했습니다.',
   knife: '산업 현장에서 사용된 공구를 콘셉트로 제작한 나이프 프랍입니다. 금속의 용접 자국과 녹, 표면 스크래치와 손잡이의 마모를 더해 거칠고 실용적인 사용감을 표현했습니다.',
   chair: '오래된 목제 의자를 제작한 개인 프랍 작업입니다. 휘어진 목재 구조와 표면의 마모를 세밀하게 표현하고, 천의 자연스러운 주름을 함께 구성해 시간의 흔적이 느껴지도록 제작했습니다.',
@@ -18,7 +29,7 @@ const projectDescriptions = {
   carriage: '판타지 세계관의 운송 마차를 제작한 환경 프랍 작업입니다. 목재와 금속 구조, 천막과 밧줄, 적재물의 재질을 구성하고 표면의 마모를 더해 오랜 시간 사용된 이동 수단의 분위기를 표현했습니다.',
   zbrush: '암석과 타일의 형태·표면을 연구한 ZBrush 작업 모음입니다. 암석 에셋은 크기와 회전, 배치를 변형해 다양한 실루엣의 지형으로 조립했고, 타일은 반복 가능한 구조 안에 돌의 크기와 문양, 균열과 마모를 구성했습니다.',
 };
-const byId = Object.fromEntries(projects.map(project => [project.id, project]));
+const byId = Object.fromEntries([...projects, ...universityProjects].map(project => [project.id, project]));
 const asset = path => encodeURI(path);
 const displayedCategory = project => project.category === 'ZBrush' ? 'Personal' : project.category;
 let activeProject, activeImage = 0;
@@ -31,20 +42,26 @@ const orderedProjects = () => {
 function renderProjects() {
   const ordered = orderedProjects();
   document.querySelector('#projectCount').innerHTML = `${projects.length} Projects<br />Click → Detail`;
-  document.querySelector('#personalGrid').innerHTML = ordered.map(project => `<article class="project-card" data-project="${project.id}"><img src="${asset(project.cover)}" alt="${project.title}" loading="lazy"><div class="card-info"><span class="card-heading"><span class="card-title">${project.title}</span><span class="card-date">${project.date}</span></span><span class="card-views">${displayedCategory(project)} · ${project.type}</span></div></article>`).join('');
+  document.querySelector('#personalGrid').innerHTML = ordered.map(projectCard).join('');
+  document.querySelector('#universityGrid').innerHTML = universityProjects.map(projectCard).join('');
 }
 function openProject(id) { activeProject = byId[id]; activeImage = 0; document.querySelector('#lightbox').showModal(); renderLightbox(); }
 function renderLightbox() {
   const path = activeProject.images[activeImage];
-  const image = document.querySelector('#lightboxImage'); image.src = asset(path); image.alt = activeProject.title; image.classList.remove('is-zoomed'); image.style.removeProperty('--pan-x'); image.style.removeProperty('--pan-y'); image.style.removeProperty('cursor'); const stage = document.querySelector('.lightbox-stage'); stage.classList.remove('is-zoomed'); stage.style.removeProperty('cursor'); inlinePanX = 0; inlinePanY = 0; inlineDrag = null; inlineDragged = false;
-  document.querySelector('#lightboxMeta').innerHTML = `<strong>${activeProject.title}</strong><br>${displayedCategory(activeProject)} · ${activeProject.type}<br>${activeProject.date}<p class="project-description">${projectDescriptions[activeProject.id]}</p><span class="image-position">${activeImage + 1} / ${activeProject.images.length}</span>`;
+  const image = document.querySelector('#lightboxImage'); const video = document.querySelector('#lightboxVideo');
+  video.pause(); video.removeAttribute('src'); video.load();
+  video.hidden = !isVideo(path); image.hidden = !path || isVideo(path);
+  document.querySelector('#lightboxEmpty').hidden = !!path;
+  if (isVideo(path)) { video.src = asset(path); video.play().catch(() => {}); }
+  if (path && !isVideo(path)) image.src = asset(path); image.alt = activeProject.title; image.classList.remove('is-zoomed'); image.style.removeProperty('--pan-x'); image.style.removeProperty('--pan-y'); image.style.removeProperty('cursor'); const stage = document.querySelector('.lightbox-stage'); stage.classList.remove('is-zoomed'); stage.style.removeProperty('cursor'); inlinePanX = 0; inlinePanY = 0; inlineDrag = null; inlineDragged = false;
+  document.querySelector('#lightboxMeta').innerHTML = `<strong>${activeProject.title}</strong><br>${displayedCategory(activeProject)} · ${activeProject.type}<br>${activeProject.date}<p class="project-description">${projectDescriptions[activeProject.id]}</p><span class="image-position">${activeProject.images.length ? activeImage + 1 : 0} / ${activeProject.images.length}</span>`;
   const thumbs = document.querySelector('#lightboxThumbs');
-  thumbs.innerHTML = activeProject.images.map((item, index) => `<button class="${index === activeImage ? 'active' : ''}" data-image-index="${index}" aria-label="Open image ${index + 1}"><img src="${asset(item)}" alt=""></button>`).join('');
+  thumbs.innerHTML = activeProject.images.map((item, index) => `<button class="${index === activeImage ? 'active' : ''}" data-image-index="${index}" aria-label="Open image ${index + 1}">${isVideo(item) ? `<video src="${asset(item)}" muted preload="metadata"></video>` : `<img src="${asset(item)}" alt="">`}</button>`).join('');
   const activeThumb = thumbs.querySelector('.active');
   requestAnimationFrame(() => activeThumb?.scrollIntoView({behavior:'smooth', block:'nearest', inline:'nearest'}));
 }
-function moveImage(step) { activeImage = (activeImage + step + activeProject.images.length) % activeProject.images.length; renderLightbox(); }
-function moveProject(step) { const ordered = orderedProjects(); const current = ordered.findIndex(project => project.id === activeProject.id); activeProject = ordered[(current + step + ordered.length) % ordered.length]; activeImage = 0; renderLightbox(); }
+function moveImage(step) { if (!activeProject.images.length) return; activeImage = (activeImage + step + activeProject.images.length) % activeProject.images.length; renderLightbox(); }
+function moveProject(step) { const ordered = universityProjects.includes(activeProject) ? universityProjects : orderedProjects(); const current = ordered.findIndex(project => project.id === activeProject.id); activeProject = ordered[(current + step + ordered.length) % ordered.length]; activeImage = 0; renderLightbox(); }
 function toast(message) { const element = document.querySelector('#toast'); element.textContent = message; element.classList.add('visible'); clearTimeout(toast.timer); toast.timer = setTimeout(() => element.classList.remove('visible'), 1800); }
 function startHeroSlideshow() {
   const slides = [...document.querySelectorAll('.hero-slide')];
@@ -83,3 +100,9 @@ document.addEventListener('keydown', event => { if (event.key === 'Escape') { co
 document.querySelector('#lightbox').addEventListener('cancel', event => { event.preventDefault(); event.currentTarget.close(); });
 renderProjects();
 startHeroSlideshow();
+
+document.querySelector('#lightbox').addEventListener('close', () => document.querySelector('#lightboxVideo').pause());
+document.addEventListener('keydown', event => {
+  const card = event.target.closest('[data-project]');
+  if (card && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); openProject(card.dataset.project); }
+});
