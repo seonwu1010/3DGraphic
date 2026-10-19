@@ -9,13 +9,13 @@ const projects = [
   {id:'zbrush', title:'ZBRUSH STUDY', category:'ZBrush', type:'ZBrush', date:'2024–2026', sortKey:202606, cover:'Personal/ZBrush/Zbrush/202606_Rock3/1.jpg', images:['Personal/ZBrush/Zbrush/202606_Rock3/1.jpg','Personal/ZBrush/Zbrush/202606_Rock3/2.jpg','Personal/ZBrush/Zbrush/202606_Rock3/3.jpg','Personal/ZBrush/Zbrush/202606_Rock3/4.jpg','Personal/ZBrush/Zbrush/202606_Rock3/5.jpg','Personal/ZBrush/Zbrush/202604_Rock2/1.jpg','Personal/ZBrush/Zbrush/202604_Rock2/2.jpg','Personal/ZBrush/Zbrush/202603_Rock/1.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/1.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/2.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/3.jpg']},
 ];
 const universityProjects = [
-  {id:'3drive', title:'3Drive', category:'University', type:'Project', date:'', cover:'University Project/3Drive/PV-web.mp4', images:['University Project/3Drive/PV-web.mp4']},
+  {id:'3drive', title:'3Drive', category:'University', type:'Project', date:'', cover:'University Project/3Drive/PV-web.mp4', poster:'University Project/3Drive/poster.jpg', images:['University Project/3Drive/PV-web.mp4']},
   {id:'kirna', title:'Kirna', category:'University', type:'Project', date:'', images:[]},
   {id:'puangjump', title:'Puang Jump', category:'University', type:'Project', date:'', images:[]},
 ];
 const isVideo = path => /\.mp4$/i.test(path || '');
-const previewMedia = (path, title) => !path ? '<span class="pending-preview">COMING SOON</span>' : isVideo(path) ? `<video src="${asset(path)}" muted loop playsinline preload="metadata" aria-label="${title}"></video>` : `<img src="${asset(path)}" alt="${title}" loading="lazy">`;
-const projectCard = project => `<article class="project-card" data-project="${project.id}" tabindex="0" role="button" aria-label="Open ${project.title}">${previewMedia(project.cover, project.title)}<div class="card-info"><span class="card-heading"><span class="card-title">${project.title}</span><span class="card-date">${project.date}</span></span><span class="card-views">${displayedCategory(project)} · ${project.type}</span></div></article>`;
+const previewMedia = (path, title, poster) => !path ? '<span class="pending-preview">COMING SOON</span>' : isVideo(path) ? `${poster ? `<img class="video-poster" src="${asset(poster)}" alt="${title}">` : ''}<video src="${asset(path)}" ${poster ? `poster="${asset(poster)}"` : ''} muted loop playsinline preload="metadata" aria-label="${title}"></video>` : `<img src="${asset(path)}" alt="${title}" loading="lazy">`;
+const projectCard = project => `<article class="project-card" data-project="${project.id}" tabindex="0" role="button" aria-label="Open ${project.title}">${previewMedia(project.cover, project.title, project.poster)}<div class="card-info"><span class="card-heading"><span class="card-title">${project.title}</span><span class="card-date">${project.date}</span></span><span class="card-views">${displayedCategory(project)} · ${project.type}</span></div></article>`;
 const projectDescriptions = {
   '3drive': '대학에서 진행한 3Drive 프로젝트입니다. 주요 장면과 프로젝트의 분위기를 프리뷰 영상으로 소개합니다.',
   kirna: '대학에서 진행한 Kirna 프로젝트입니다. 작업 내용과 결과물을 준비 중입니다.',
@@ -110,11 +110,11 @@ document.addEventListener('keydown', event => {
 // Play video thumbnails only while their project card is hovered or focused.
 function startCardPreview(card) {
   const video = card?.querySelector('video');
-  if (video) video.play().catch(() => {});
+  if (video) video.play().then(() => { if (card.matches(':hover, :focus')) card.classList.add('is-previewing'); else stopCardPreview(card); }).catch(() => {});
 }
 function stopCardPreview(card) {
   const video = card?.querySelector('video');
-  if (video) { video.pause(); video.currentTime = 0; }
+  if (video) { card.classList.remove('is-previewing'); video.pause(); video.currentTime = 0; }
 }
 document.querySelectorAll('.project-card').forEach(card => {
   card.addEventListener('mouseenter', () => startCardPreview(card));

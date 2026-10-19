@@ -53,3 +53,5 @@
 .lightbox-stage [hidden]{display:none!important}
 .lightbox-thumbs video{width:100%;height:100%;object-fit:cover;pointer-events:none}
 @media(max-width:700px){.university .section-title h2{font-size:10vw}.university-grid .project-card:nth-child(n){grid-column:span 2;grid-row:span 1}}
+
+.project-card .video-poster{z-index:1;pointer-events:none}.project-card.is-previewing .video-poster{visibility:hidden}
