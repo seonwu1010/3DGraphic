@@ -17,7 +17,7 @@ const isVideo = path => /\.mp4(?:\?|$)/i.test(path || '');
 const previewMedia = (path, title, poster) => !path ? '<span class="pending-preview">COMING SOON</span>' : isVideo(path) ? `${poster ? `<img class="video-poster" src="${asset(poster)}" alt="${title}">` : ''}<video src="${asset(path)}" ${poster ? `poster="${asset(poster)}"` : ''} muted loop playsinline preload="metadata" aria-label="${title}"></video>` : `<img src="${asset(path)}" alt="${title}" loading="lazy">`;
 const projectCard = project => `<article class="project-card" data-project="${project.id}" tabindex="0" role="button" aria-label="Open ${project.title}">${previewMedia(project.cover, project.title, project.poster)}<div class="card-info"><span class="card-heading"><span class="card-title">${project.title}</span><span class="card-date">${project.date}</span></span><span class="card-views">${displayedCategory(project)} · ${project.type}</span></div></article>`;
 const projectDescriptions = {
-  '3drive': '대학에서 진행한 3Drive 프로젝트입니다. 주요 장면과 프로젝트의 분위기를 프리뷰 영상으로 소개합니다.',
+  '3drive': '4학년 1학기 캡스톤디자인(2) 수업에서 진행한 3Drive 프로젝트입니다. 기존 클라우드 스토리지보다 직관적인 파일 탐색과 편리한 사용성을 강조한 3D 기반 클라우드 스토리지 서비스입니다.<br><br>프로젝트의 전반적인 기획과 서비스에 필요한 3D 모델링, UI/UX 디자인을 담당했습니다.',
   kirna: '대학에서 진행한 Kirna 프로젝트입니다. 작업 내용과 결과물을 준비 중입니다.',
   puangjump: '대학에서 진행한 Puang Jump 프로젝트입니다. 작업 내용과 결과물을 준비 중입니다.',
   scene2024: 'CRT 모니터와 레트로 게임기, SF 우주선 내부 환경을 중심으로 구성한 2024년 개인 작업입니다. 다양한 소품과 구조물, 패널과 배선의 디테일을 구성하고 재질과 조명을 활용해 각 공간의 분위기를 표현했습니다.',
