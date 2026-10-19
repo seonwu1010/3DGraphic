@@ -14,7 +14,7 @@ const universityProjects = [
   {id:'puangjump', title:'Puang Jump', category:'University', type:'Project', date:'', images:[]},
 ];
 const isVideo = path => /\.mp4$/i.test(path || '');
-const previewMedia = (path, title) => !path ? '<span class="pending-preview">COMING SOON</span>' : isVideo(path) ? `<video src="${asset(path)}" autoplay muted loop playsinline preload="metadata" aria-label="${title}"></video>` : `<img src="${asset(path)}" alt="${title}" loading="lazy">`;
+const previewMedia = (path, title) => !path ? '<span class="pending-preview">COMING SOON</span>' : isVideo(path) ? `<video src="${asset(path)}" muted loop playsinline preload="metadata" aria-label="${title}"></video>` : `<img src="${asset(path)}" alt="${title}" loading="lazy">`;
 const projectCard = project => `<article class="project-card" data-project="${project.id}" tabindex="0" role="button" aria-label="Open ${project.title}">${previewMedia(project.cover, project.title)}<div class="card-info"><span class="card-heading"><span class="card-title">${project.title}</span><span class="card-date">${project.date}</span></span><span class="card-views">${displayedCategory(project)} · ${project.type}</span></div></article>`;
 const projectDescriptions = {
   '3drive': '대학에서 진행한 3Drive 프로젝트입니다. 주요 장면과 프로젝트의 분위기를 프리뷰 영상으로 소개합니다.',
@@ -105,4 +105,21 @@ document.querySelector('#lightbox').addEventListener('close', () => document.que
 document.addEventListener('keydown', event => {
   const card = event.target.closest('[data-project]');
   if (card && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); openProject(card.dataset.project); }
+});
+
+// Play video thumbnails only while their project card is hovered or focused.
+function startCardPreview(card) {
+  const video = card?.querySelector('video');
+  if (video) video.play().catch(() => {});
+}
+function stopCardPreview(card) {
+  const video = card?.querySelector('video');
+  if (video) { video.pause(); video.currentTime = 0; }
+}
+document.querySelectorAll('.project-card').forEach(card => {
+  card.addEventListener('mouseenter', () => startCardPreview(card));
+  card.addEventListener('mouseleave', () => stopCardPreview(card));
+  card.addEventListener('focus', () => startCardPreview(card));
+  card.addEventListener('blur', () => stopCardPreview(card));
+  card.addEventListener('click', () => stopCardPreview(card));
 });
