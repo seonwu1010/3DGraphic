@@ -55,3 +55,10 @@
 @media(max-width:700px){.university .section-title h2{font-size:10vw}.university-grid .project-card:nth-child(n){grid-column:span 2;grid-row:span 1}}
 
 .project-card .video-poster{z-index:1;pointer-events:none}.project-card.is-previewing .video-poster{visibility:hidden}
+
+/* Keep section headings slightly smaller than the hero title. */
+:root{--section-heading-size:clamp(55px,4.95vw,97px)}
+.section-title h2,.university .section-title h2{font-size:var(--section-heading-size)}
+#contact>.about-label{font-size:var(--section-heading-size)!important}
+#contact{border-top:0}
+@media(max-width:700px){:root{--section-heading-size:16vw}}
