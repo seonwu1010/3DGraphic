@@ -2,3 +2,6 @@ node_modules/
 .firebase/
 .env
 *.psd
+
+# Keep the large Puang Jump source video locally; publish the optimized copy.
+/University Project/Puang_Jump/Puang_JUMP.mp4
