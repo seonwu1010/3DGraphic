@@ -30,7 +30,23 @@ const projectDescriptions = {
   zbrush: '암석과 타일의 형태·표면을 연구한 ZBrush 작업 모음입니다. 암석 에셋은 크기와 회전, 배치를 변형해 다양한 실루엣의 지형으로 조립했고, 타일은 반복 가능한 구조 안에 돌의 크기와 문양, 균열과 마모를 구성했습니다.',
 };
 const byId = Object.fromEntries([...projects, ...universityProjects].map(project => [project.id, project]));
-const asset = path => encodeURI(path);
+// Refresh renamed/replaced images even when the browser cached the same filename.
+const imageRevisions = {
+  "Personal/202603_Knife/1.jpg": "2ccfbe4f04fa",
+  "Personal/202603_Knife/3.jpg": "932bc6cd1dad",
+  "Personal/202604_Chair/1.jpg": "812bd67d96cc",
+  "Personal/202604_Chair/2.jpg": "10ee08c954e6",
+  "Personal/202604_Chair/3.jpg": "094e4ce7fb65",
+  "Personal/202607_AxeGun/1.jpg": "f916af36cf9a",
+  "Personal/202607_AxeGun/3.jpg": "f43899948770",
+  "Personal/202607_AxeGun/4.jpg": "92dfb3cdb39a",
+  "Personal/ZBrush/Zbrush/202606_Rock3/1.jpg": "112266933eac",
+  "Personal/ZBrush/Zbrush/202606_Rock3/3.jpg": "3ccc5fd9b235"
+};
+const asset = path => {
+  const revision = imageRevisions[path];
+  return encodeURI(path) + (revision ? `${path.includes('?') ? '&' : '?'}v=${revision}` : '');
+};
 const displayedCategory = project => project.category === 'ZBrush' ? 'Personal' : project.category;
 let activeProject, activeImage = 0;
 let inlinePanX = 0, inlinePanY = 0, inlineDrag = null, inlineDragged = false;
