@@ -17,7 +17,7 @@ const substanceProjects = [
   {id:'substance-texture-5', title:'RED TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/5.jpg', images:['Substance Designer/5.jpg']},
   {id:'substance-texture-6', title:'WORN RED TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/6.jpg', images:['Substance Designer/6.jpg']},
 ];
-const substanceDescription = '서브스턴스 디자이너로 여러 텍스처를 만들어보았습니다.';
+const substanceDescription = 'Substance Designer로 여러 텍스처를 만들어보았습니다.';
 const universityProjects = [
   {id:'3drive', title:'3Drive', category:'University', type:'Project', date:'', cover:'University Project/3Drive/PV-web.mp4?v=2', poster:'University Project/3Drive/poster.jpg?v=4', images:['University Project/3Drive/PV-web.mp4?v=2']},
   {id:'kirna', title:'Kirna', category:'University', type:'Project', date:'', images:[]},
