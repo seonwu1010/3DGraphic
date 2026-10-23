@@ -11,6 +11,11 @@ const projects = [
 // Each texture has one image; the viewer shares navigation across this collection.
 const substanceProjects = [
   {id:'substance-tile', title:'TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/1.jpg', images:['Substance Designer/1.jpg']},
+  {id:'substance-texture-2', title:'BLUE TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/2.jpg', images:['Substance Designer/2.jpg']},
+  {id:'substance-texture-3', title:'BRICK', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/3.jpg', images:['Substance Designer/3.jpg']},
+  {id:'substance-texture-4', title:'CHAINMAIL', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/4.jpg', images:['Substance Designer/4.jpg']},
+  {id:'substance-texture-5', title:'RED TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/5.jpg', images:['Substance Designer/5.jpg']},
+  {id:'substance-texture-6', title:'WORN RED TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/6.jpg', images:['Substance Designer/6.jpg']},
 ];
 const substanceDescription = '서브스턴스 디자이너로 여러 텍스처를 만들어보았습니다.';
 const universityProjects = [
