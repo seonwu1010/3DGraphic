@@ -8,6 +8,11 @@ const projects = [
   {id:'carriage', title:'CARRIAGE', category:'Personal', type:'Props', date:'2026.10', sortKey:202610, cover:'Personal/202610_Carriage/1.jpg', images:['Personal/202610_Carriage/1.jpg']},
   {id:'zbrush', title:'ZBRUSH STUDY', category:'ZBrush', type:'ZBrush', date:'2024–2026', sortKey:202606, cover:'Personal/ZBrush/Zbrush/202606_Rock3/1.jpg', images:['Personal/ZBrush/Zbrush/202606_Rock3/1.jpg','Personal/ZBrush/Zbrush/202606_Rock3/2.jpg','Personal/ZBrush/Zbrush/202606_Rock3/3.jpg','Personal/ZBrush/Zbrush/202606_Rock3/4.jpg','Personal/ZBrush/Zbrush/202606_Rock3/5.jpg','Personal/ZBrush/Zbrush/202604_Rock2/1.jpg','Personal/ZBrush/Zbrush/202604_Rock2/2.jpg','Personal/ZBrush/Zbrush/202603_Rock/1.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/1.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/2.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/3.jpg']},
 ];
+// Each texture has one image; the viewer shares navigation across this collection.
+const substanceProjects = [
+  {id:'substance-tile', title:'TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/1.jpg', images:['Substance Designer/1.jpg']},
+];
+const substanceDescription = '서브스턴스 디자이너로 여러 텍스처를 만들어보았습니다.';
 const universityProjects = [
   {id:'3drive', title:'3Drive', category:'University', type:'Project', date:'', cover:'University Project/3Drive/PV-web.mp4?v=2', poster:'University Project/3Drive/poster.jpg?v=4', images:['University Project/3Drive/PV-web.mp4?v=2']},
   {id:'kirna', title:'Kirna', category:'University', type:'Project', date:'', images:[]},
@@ -29,7 +34,7 @@ const projectDescriptions = {
   carriage: '판타지 세계관의 운송 마차를 제작한 환경 프랍 작업입니다. 목재와 금속 구조, 천막과 밧줄, 적재물의 재질을 구성하고 표면의 마모를 더해 오랜 시간 사용된 이동 수단의 분위기를 표현했습니다.',
   zbrush: '암석과 타일의 형태·표면을 연구한 ZBrush 작업 모음입니다. 암석 에셋은 크기와 회전, 배치를 변형해 다양한 실루엣의 지형으로 조립했고, 타일은 반복 가능한 구조 안에 돌의 크기와 문양, 균열과 마모를 구성했습니다.',
 };
-const byId = Object.fromEntries([...projects, ...universityProjects].map(project => [project.id, project]));
+const byId = Object.fromEntries([...projects, ...substanceProjects, ...universityProjects].map(project => [project.id, project]));
 // Refresh renamed/replaced images even when the browser cached the same filename.
 const imageRevisions = {
   "Personal/202603_Knife/1.jpg": "2ccfbe4f04fa",
@@ -59,8 +64,11 @@ function renderProjects() {
   const ordered = orderedProjects();
   document.querySelector('#projectCount').innerHTML = `${projects.length} Projects<br />Click → Detail`;
   document.querySelector('#personalGrid').innerHTML = ordered.map(projectCard).join('');
+  document.querySelector('#substanceGrid').innerHTML = substanceProjects.map(projectCard).join('');
+  document.querySelector('#substanceCount').innerHTML = `${substanceProjects.length} Textures<br />Click → Detail`;
   document.querySelector('#universityGrid').innerHTML = universityProjects.map(projectCard).join('');
 }
+const isSubstanceProject = () => substanceProjects.includes(activeProject);
 function openProject(id) { activeProject = byId[id]; activeImage = 0; document.querySelector('#lightbox').showModal(); renderLightbox(); }
 function renderLightbox() {
   const path = activeProject.images[activeImage];
@@ -70,14 +78,15 @@ function renderLightbox() {
   document.querySelector('#lightboxEmpty').hidden = !!path;
   if (isVideo(path)) { video.src = asset(path); video.play().catch(() => {}); }
   if (path && !isVideo(path)) image.src = asset(path); image.alt = activeProject.title; image.classList.remove('is-zoomed'); image.style.removeProperty('--pan-x'); image.style.removeProperty('--pan-y'); image.style.removeProperty('cursor'); const stage = document.querySelector('.lightbox-stage'); stage.classList.remove('is-zoomed'); stage.style.removeProperty('cursor'); inlinePanX = 0; inlinePanY = 0; inlineDrag = null; inlineDragged = false;
-  document.querySelector('#lightboxMeta').innerHTML = `<strong>${activeProject.title}</strong><br>${displayedCategory(activeProject)} · ${activeProject.type}<br>${activeProject.date}<p class="project-description">${projectDescriptions[activeProject.id]}</p><span class="image-position">${activeProject.images.length ? activeImage + 1 : 0} / ${activeProject.images.length}</span>`;
+  document.querySelector('#lightboxMeta').innerHTML = `<strong>${activeProject.title}</strong><br>${displayedCategory(activeProject)} · ${activeProject.type}<br>${activeProject.date}<p class="project-description">${isSubstanceProject() ? substanceDescription : projectDescriptions[activeProject.id]}</p><span class="image-position">${isSubstanceProject() ? substanceProjects.indexOf(activeProject) + 1 : activeProject.images.length ? activeImage + 1 : 0} / ${isSubstanceProject() ? substanceProjects.length : activeProject.images.length}</span>`;
   const thumbs = document.querySelector('#lightboxThumbs');
-  thumbs.innerHTML = activeProject.images.map((item, index) => `<button class="${index === activeImage ? 'active' : ''}" data-image-index="${index}" aria-label="Open image ${index + 1}">${isVideo(item) ? `<video src="${asset(item)}" muted preload="metadata"></video>` : `<img src="${asset(item)}" alt="">`}</button>`).join('');
+  thumbs.setAttribute('aria-label', isSubstanceProject() ? 'Substance Designer textures' : 'Project images');
+  thumbs.innerHTML = isSubstanceProject() ? substanceProjects.map(project => `<button class="${project === activeProject ? 'active' : ''}" data-texture-project="${project.id}" aria-label="Open ${project.title}" aria-pressed="${project === activeProject}"><img src="${asset(project.cover)}" alt="${project.title}"></button>`).join('') : activeProject.images.map((item, index) => `<button class="${index === activeImage ? 'active' : ''}" data-image-index="${index}" aria-label="Open image ${index + 1}">${isVideo(item) ? `<video src="${asset(item)}" muted preload="metadata"></video>` : `<img src="${asset(item)}" alt="">`}</button>`).join('');
   const activeThumb = thumbs.querySelector('.active');
   requestAnimationFrame(() => activeThumb?.scrollIntoView({behavior:'smooth', block:'nearest', inline:'nearest'}));
 }
-function moveImage(step) { if (!activeProject.images.length) return; activeImage = (activeImage + step + activeProject.images.length) % activeProject.images.length; renderLightbox(); }
-function moveProject(step) { const ordered = universityProjects.includes(activeProject) ? universityProjects : orderedProjects(); const current = ordered.findIndex(project => project.id === activeProject.id); activeProject = ordered[(current + step + ordered.length) % ordered.length]; activeImage = 0; renderLightbox(); }
+function moveImage(step) { if (isSubstanceProject()) { moveProject(step); return; } if (!activeProject.images.length) return; activeImage = (activeImage + step + activeProject.images.length) % activeProject.images.length; renderLightbox(); }
+function moveProject(step) { const ordered = isSubstanceProject() ? substanceProjects : universityProjects.includes(activeProject) ? universityProjects : orderedProjects(); const current = ordered.findIndex(project => project.id === activeProject.id); activeProject = ordered[(current + step + ordered.length) % ordered.length]; activeImage = 0; renderLightbox(); }
 function toast(message) { const element = document.querySelector('#toast'); element.textContent = message; element.classList.add('visible'); clearTimeout(toast.timer); toast.timer = setTimeout(() => element.classList.remove('visible'), 1800); }
 function startHeroSlideshow() {
   const slides = [...document.querySelectorAll('.hero-slide')];
@@ -96,6 +105,7 @@ function startHeroSlideshow() {
 
 document.addEventListener('click', event => {
   const nav = event.target.closest('[data-nav]'); if (nav) { event.preventDefault(); document.querySelector(`#${nav.dataset.nav}`).scrollIntoView({behavior:'smooth'}); return; }
+  const texture = event.target.closest('[data-texture-project]'); if (texture) { activeProject = byId[texture.dataset.textureProject]; activeImage = 0; renderLightbox(); return; }
   const card = event.target.closest('[data-project]'); if (card) { openProject(card.dataset.project); return; }
   const thumb = event.target.closest('[data-image-index]'); if (thumb) { activeImage = Number(thumb.dataset.imageIndex); renderLightbox(); return; }
   if (event.target.closest('.lightbox-close')) document.querySelector('#lightbox').close();
