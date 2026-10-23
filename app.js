@@ -2,7 +2,7 @@ const projects = [
   {id:'scene2024', title:'2024 SCENE', category:'Personal', type:'Environment · Props', date:'2024', sortKey:202400, cover:'Personal/2024_Scene/202409_CRT&Nes/1.jpg', images:['Personal/2024_Scene/202409_CRT&Nes/1.jpg','Personal/2024_Scene/202409_CRT&Nes/2.jpg','Personal/2024_Scene/202409_CRT&Nes/3.jpg','Personal/2024_Scene/202409_CRT&Nes/4.jpg','Personal/2024_Scene/202409_CRT&Nes/5.jpg','Personal/2024_Scene/202409_CRT&Nes/6.jpg','Personal/2024_Scene/202409_CRT&Nes/7.jpg','Personal/2024_Scene/202407_Sci-fi/1.jpg','Personal/2024_Scene/202407_Sci-fi/2.jpg','Personal/2024_Scene/202407_Sci-fi/3.jpg','Personal/2024_Scene/202407_Sci-fi/4.jpg','Personal/2024_Scene/202407_Sci-fi/5.jpg']},
   {id:'knife', title:'UTILITY KNIFE', category:'Personal', type:'Props', date:'2026.03', sortKey:202603, cover:'Personal/202603_Knife/1.jpg', images:['Personal/202603_Knife/1.jpg','Personal/202603_Knife/2.jpg','Personal/202603_Knife/3.jpg','Personal/202603_Knife/4.jpg','Personal/202603_Knife/5.jpg','Personal/202603_Knife/6.jpg']},
   {id:'chair', title:'CHAIR', category:'Personal', type:'Props', date:'2026.04', sortKey:202604, cover:'Personal/202604_Chair/1.jpg', images:['Personal/202604_Chair/1.jpg','Personal/202604_Chair/2.jpg','Personal/202604_Chair/3.jpg','Personal/202604_Chair/4.jpg','Personal/202604_Chair/5.jpg']},
-  {id:'sofa', title:'SOFA', category:'Personal', type:'Props', date:'2026.06', sortKey:202606, cover:'Personal/202606_Sofa/1.jpg', images:['Personal/202606_Sofa/1.jpg','Personal/202606_Sofa/2.jpg']},
+  {id:'sofa', title:'SOFA', category:'Personal', type:'Props', date:'2026.06', sortKey:202606, cover:'Personal/202606_Sofa/1.jpg', images:['Personal/202606_Sofa/1.jpg','Personal/202606_Sofa/2.jpg','Personal/202606_Sofa/3.jpg']},
   {id:'axegun', title:'AXE GUN', category:'Personal', type:'Props', date:'2026.07', sortKey:202607, cover:'Personal/202607_AxeGun/1.jpg', images:['Personal/202607_AxeGun/1.jpg','Personal/202607_AxeGun/2.jpg','Personal/202607_AxeGun/3.jpg','Personal/202607_AxeGun/4.jpg','Personal/202607_AxeGun/5.jpg']},
   {id:'fantasyaxe', title:'FANTASY AXE', category:'Personal', type:'Props', date:'2026.08', sortKey:202608, cover:'Personal/202608_FantasyAxe/1.jpg', images:['Personal/202608_FantasyAxe/1.jpg','Personal/202608_FantasyAxe/2.jpg','Personal/202608_FantasyAxe/3.jpg']},
   {id:'carriage', title:'CARRIAGE', category:'Personal', type:'Props', date:'2026.10', sortKey:202610, cover:'Personal/202610_Carriage/1.jpg', images:['Personal/202610_Carriage/1.jpg']},
@@ -42,6 +42,9 @@ const projectDescriptions = {
 const byId = Object.fromEntries([...projects, ...substanceProjects, ...universityProjects].map(project => [project.id, project]));
 // Refresh renamed/replaced images even when the browser cached the same filename.
 const imageRevisions = {
+  "Personal/202606_Sofa/1.jpg": "8d1945b424ac",
+  "Personal/202606_Sofa/2.jpg": "8ce1ff4d3497",
+  "Personal/202606_Sofa/3.jpg": "ba8bff299f2f",
   "Personal/202603_Knife/1.jpg": "2ccfbe4f04fa",
   "Personal/202603_Knife/3.jpg": "932bc6cd1dad",
   "Personal/202604_Chair/1.jpg": "812bd67d96cc",
