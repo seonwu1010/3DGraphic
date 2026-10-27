@@ -107,7 +107,7 @@ function renderProjects() {
 }
 const isSubstanceProject = () => substanceProjects.includes(activeProject);
 function openProject(id) { activeProject = byId[id]; activeImage = 0; document.querySelector('#lightbox').showModal(); renderLightbox(); }
-function renderLightbox() {
+function renderLightbox({preserveThumbnails = false} = {}) {
   const path = activeProject.images[activeImage];
   const youtube = document.querySelector('#lightboxYoutube');
   const embeddedId = youtubeId(path);
@@ -134,11 +134,19 @@ function renderLightbox() {
   document.querySelector('#lightboxMeta').innerHTML = `<strong>${activeProject.title}</strong><br>${displayedCategory(activeProject)} · ${activeProject.type}<br>${activeProject.date}<p class="project-description">${isSubstanceProject() ? substanceDescription : projectDescriptions[activeProject.id]}</p><span class="image-position">${isSubstanceProject() ? substanceProjects.indexOf(activeProject) + 1 : activeProject.images.length ? activeImage + 1 : 0} / ${isSubstanceProject() ? substanceProjects.length : activeProject.images.length}</span>`;
   const thumbs = document.querySelector('#lightboxThumbs');
   thumbs.setAttribute('aria-label', isSubstanceProject() ? 'Substance Designer textures' : 'Project images');
-  thumbs.innerHTML = isSubstanceProject() ? substanceProjects.map(project => `<button class="${project === activeProject ? 'active' : ''}" data-texture-project="${project.id}" aria-label="Open ${project.title}" aria-pressed="${project === activeProject}"><img src="${asset(project.cover)}" alt="${project.title}"></button>`).join('') : activeProject.images.map((item, index) => `<button class="${index === activeImage ? 'active' : ''}" data-image-index="${index}" aria-label="Open ${youtubeId(item) ? 'video' : `image ${index + 1}`}">${youtubeId(item) ? `<img src="${asset(activeProject.cover)}" alt=""><span class="video-thumb-play" aria-hidden="true">▶</span>` : isVideo(item) ? `<video src="${asset(item)}" muted preload="metadata"></video>` : `<img src="${asset(item)}" alt="">`}</button>`).join('');
-  clearTimeout(thumbnailReturnTimer);
-  requestAnimationFrame(centerSelectedThumbnail);
+  if (!preserveThumbnails) {
+    thumbs.innerHTML = isSubstanceProject() ? substanceProjects.map(project => `<button class="${project === activeProject ? 'active' : ''}" data-texture-project="${project.id}" aria-label="Open ${project.title}" aria-pressed="${project === activeProject}"><img src="${asset(project.cover)}" alt="${project.title}"></button>`).join('') : activeProject.images.map((item, index) => `<button class="${index === activeImage ? 'active' : ''}" data-image-index="${index}" aria-label="Open ${youtubeId(item) ? 'video' : `image ${index + 1}`}">${youtubeId(item) ? `<img src="${asset(activeProject.cover)}" alt=""><span class="video-thumb-play" aria-hidden="true">▶</span>` : isVideo(item) ? `<video src="${asset(item)}" muted preload="metadata"></video>` : `<img src="${asset(item)}" alt="">`}</button>`).join('');
+    clearTimeout(thumbnailSelectionTimer);
+    requestAnimationFrame(centerSelectedThumbnail);
+  } else {
+    thumbs.querySelectorAll('button').forEach(button => {
+      const selected = isSubstanceProject() ? button.dataset.textureProject === activeProject.id : Number(button.dataset.imageIndex) === activeImage;
+      button.classList.toggle('active', selected);
+      button.setAttribute('aria-pressed', selected);
+    });
+  }
 }
-let thumbnailReturnTimer;
+let thumbnailSelectionTimer, thumbnailAutomaticTimer, thumbnailScrollIsAutomatic = false;
 function centerSelectedThumbnail() {
   if (!document.querySelector('#lightbox').open) return;
   const rail = document.querySelector('#lightboxThumbs');
@@ -153,11 +161,55 @@ function centerSelectedThumbnail() {
   const size = horizontal ? selectedRect.width : selectedRect.height;
   // Clamp to the real scroll range: the first and last items never need blank spacers.
   const target = Math.max(0, Math.min(total - viewport, current + offset - (viewport - size) / 2));
-  if (Math.abs(target - current) > 1) rail.scrollTo(horizontal ? {left:target, behavior:'smooth'} : {top:target, behavior:'smooth'});
+  if (Math.abs(target - current) > 1) {
+    thumbnailScrollIsAutomatic = true;
+    clearTimeout(thumbnailAutomaticTimer);
+    thumbnailAutomaticTimer = setTimeout(() => { thumbnailScrollIsAutomatic = false; }, 200);
+    rail.scrollTo(horizontal ? {left:target, behavior:'smooth'} : {top:target, behavior:'smooth'});
+  }
 }
+function selectThumbnailAtScrollPosition() {
+  if (!document.querySelector('#lightbox').open || thumbnailScrollIsAutomatic) return;
+  const rail = document.querySelector('#lightboxThumbs');
+  const buttons = [...rail.querySelectorAll('button')];
+  if (!buttons.length) return;
+  const horizontal = window.matchMedia('(max-width:700px)').matches;
+  const rect = rail.getBoundingClientRect();
+  const center = horizontal ? rect.left + rail.clientWidth / 2 : rect.top + rail.clientHeight / 2;
+  const position = horizontal ? rail.scrollLeft : rail.scrollTop;
+  const limit = horizontal ? rail.scrollWidth - rail.clientWidth : rail.scrollHeight - rail.clientHeight;
+  let nearest = buttons[0], distance = Infinity;
+  if (position <= 1) nearest = buttons[0];
+  else if (position >= limit - 1) nearest = buttons[buttons.length - 1];
+  else buttons.forEach(button => {
+    const box = button.getBoundingClientRect();
+    const delta = Math.abs((horizontal ? box.left + box.width / 2 : box.top + box.height / 2) - center);
+    if (delta < distance) { distance = delta; nearest = button; }
+  });
+  if (isSubstanceProject()) {
+    if (nearest.dataset.textureProject === activeProject.id) return;
+    activeProject = byId[nearest.dataset.textureProject]; activeImage = 0;
+  } else {
+    const index = Number(nearest.dataset.imageIndex);
+    if (index === activeImage) return;
+    activeImage = index;
+  }
+  renderLightbox({preserveThumbnails:true});
+}
+['wheel', 'pointerdown', 'touchstart', 'keydown'].forEach(type => {
+  document.querySelector('#lightboxThumbs').addEventListener(type, () => {
+    thumbnailScrollIsAutomatic = false;
+    clearTimeout(thumbnailAutomaticTimer);
+  }, {passive:true});
+});
 document.querySelector('#lightboxThumbs').addEventListener('scroll', () => {
-  clearTimeout(thumbnailReturnTimer);
-  thumbnailReturnTimer = setTimeout(centerSelectedThumbnail, 800);
+  clearTimeout(thumbnailSelectionTimer);
+  if (thumbnailScrollIsAutomatic) {
+    clearTimeout(thumbnailAutomaticTimer);
+    thumbnailAutomaticTimer = setTimeout(() => { thumbnailScrollIsAutomatic = false; }, 200);
+    return;
+  }
+  thumbnailSelectionTimer = setTimeout(selectThumbnailAtScrollPosition, 120);
 }, {passive:true});
 function moveImage(step) { if (isSubstanceProject()) { moveProject(step); return; } if (!activeProject.images.length) return; activeImage = (activeImage + step + activeProject.images.length) % activeProject.images.length; renderLightbox(); }
 function moveProject(step) { const ordered = isSubstanceProject() ? substanceProjects : universityProjects.includes(activeProject) ? universityProjects : orderedProjects(); const current = ordered.findIndex(project => project.id === activeProject.id); activeProject = ordered[(current + step + ordered.length) % ordered.length]; activeImage = 0; renderLightbox(); }
@@ -204,7 +256,9 @@ renderProjects();
 startHeroVideo();
 
 document.querySelector('#lightbox').addEventListener('close', () => {
-  clearTimeout(thumbnailReturnTimer);
+  clearTimeout(thumbnailSelectionTimer);
+  clearTimeout(thumbnailAutomaticTimer);
+  thumbnailScrollIsAutomatic = false;
   document.querySelector('#lightboxVideo').pause();
   if (viewerYoutubeReady) viewerYoutubePlayer.stopVideo();
   else if (!viewerYoutubePlayer) document.querySelector('#lightboxYoutube').removeAttribute('src');
