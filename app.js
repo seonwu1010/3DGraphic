@@ -5,7 +5,7 @@ const projects = [
   {id:'sofa', title:'SOFA', category:'Personal', type:'Props', date:'2026.06', sortKey:202606, cover:'Personal/202606_Sofa/1.jpg', images:['Personal/202606_Sofa/1.jpg','Personal/202606_Sofa/2.jpg','Personal/202606_Sofa/3.jpg']},
   {id:'axegun', title:'AXE GUN', category:'Personal', type:'Props', date:'2026.07', sortKey:202607, cover:'Personal/202607_AxeGun/1.jpg', images:['Personal/202607_AxeGun/1.jpg','Personal/202607_AxeGun/2.jpg','Personal/202607_AxeGun/3.jpg','Personal/202607_AxeGun/4.jpg','Personal/202607_AxeGun/5.jpg']},
   {id:'fantasyaxe', title:'FANTASY AXE', category:'Personal', type:'Props', date:'2026.08', sortKey:202608, cover:'Personal/202608_FantasyAxe/1.jpg', images:['Personal/202608_FantasyAxe/1.jpg','Personal/202608_FantasyAxe/2.jpg','Personal/202608_FantasyAxe/3.jpg']},
-  {id:'carriage', title:'CARRIAGE', category:'Personal', type:'Props', date:'2026.10', sortKey:202610, cover:'Personal/202610_Carriage/1.jpg', images:['Personal/202610_Carriage/1.jpg','Personal/202610_Carriage/2.jpg','Personal/202610_Carriage/3.jpg','Personal/202610_Carriage/4.jpg','Personal/202610_Carriage/5.jpg','Personal/202610_Carriage/6.jpg','Personal/202610_Carriage/7.jpg','Personal/202610_Carriage/8.jpg','Personal/202610_Carriage/9.jpg','Personal/202610_Carriage/10.jpg','Personal/202610_Carriage/11.jpg','Personal/202610_Carriage/12.jpg']},
+  {id:'carriage', title:'CARRIAGE', category:'Personal', type:'Props', date:'2026.10', sortKey:202610, cover:'Personal/202610_Carriage/0.png', youtubeId:'bCY-vqUBD3A', images:['https://www.youtube.com/watch?v=bCY-vqUBD3A','Personal/202610_Carriage/0.png','Personal/202610_Carriage/1.jpg','Personal/202610_Carriage/2.jpg','Personal/202610_Carriage/3.jpg','Personal/202610_Carriage/4.jpg','Personal/202610_Carriage/5.jpg','Personal/202610_Carriage/6.jpg','Personal/202610_Carriage/7.jpg','Personal/202610_Carriage/8.jpg','Personal/202610_Carriage/9.jpg','Personal/202610_Carriage/10.jpg','Personal/202610_Carriage/11.jpg','Personal/202610_Carriage/12.jpg']},
   {id:'zbrush', title:'ZBRUSH STUDY', category:'ZBrush', type:'ZBrush', date:'2024–2026', sortKey:202606, cover:'Personal/ZBrush/Zbrush/202606_Rock3/1.jpg', images:['Personal/ZBrush/Zbrush/202606_Rock3/1.jpg','Personal/ZBrush/Zbrush/202606_Rock3/2.jpg','Personal/ZBrush/Zbrush/202606_Rock3/3.jpg','Personal/ZBrush/Zbrush/202606_Rock3/4.jpg','Personal/ZBrush/Zbrush/202606_Rock3/5.jpg','Personal/ZBrush/Zbrush/202604_Rock2/1.jpg','Personal/ZBrush/Zbrush/202604_Rock2/2.jpg','Personal/ZBrush/Zbrush/202603_Rock/1.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/1.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/2.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/3.jpg']},
 ];
 // Each texture has one image; the viewer shares navigation across this collection.
@@ -24,6 +24,8 @@ const universityProjects = [
   {id:'puangjump', title:'Puang Jump', category:'University', type:'Project', date:'', cover:'University Project/Puang_Jump/Puang_JUMP-web.mp4?v=1', poster:'University Project/Puang_Jump/poster.jpg?v=1', images:['University Project/Puang_Jump/Puang_JUMP-web.mp4?v=1']},
 ];
 const isVideo = path => /\.mp4(?:\?|$)/i.test(path || '');
+const youtubeId = path => /^https:\/\/www\.youtube\.com\/watch\?v=([\w-]{11})$/.exec(path || '')?.[1];
+const youtubeEmbed = (id, preview = false) => `https://www.youtube.com/embed/${id}?autoplay=1&playsinline=1&rel=0${preview ? `&mute=1&controls=0&disablekb=1&loop=1&playlist=${id}` : ''}`;
 const previewMedia = (path, title, poster) => !path ? '<span class="pending-preview">COMING SOON</span>' : isVideo(path) ? `${poster ? `<img class="video-poster" src="${asset(poster)}" alt="${title}">` : ''}<video src="${asset(path)}" ${poster ? `poster="${asset(poster)}"` : ''} muted loop playsinline preload="metadata" aria-label="${title}"></video>` : `<img src="${asset(path)}" alt="${title}" loading="lazy">`;
 const projectCard = project => `<article class="project-card" data-project="${project.id}" tabindex="0" role="button" aria-label="Open ${project.title}">${previewMedia(project.cover, project.title, project.poster)}<div class="card-info"><span class="card-heading"><span class="card-title">${project.title}</span><span class="card-date">${project.date}</span></span><span class="card-views">${displayedCategory(project)} · ${project.type}</span></div></article>`;
 const projectDescriptions = {
@@ -92,16 +94,20 @@ const isSubstanceProject = () => substanceProjects.includes(activeProject);
 function openProject(id) { activeProject = byId[id]; activeImage = 0; document.querySelector('#lightbox').showModal(); renderLightbox(); }
 function renderLightbox() {
   const path = activeProject.images[activeImage];
+  const youtube = document.querySelector('#lightboxYoutube');
+  const embeddedId = youtubeId(path);
+  youtube.removeAttribute('src'); youtube.hidden = !embeddedId;
+  if (embeddedId) { youtube.title = `${activeProject.title} video`; youtube.src = youtubeEmbed(embeddedId); }
   const image = document.querySelector('#lightboxImage'); const video = document.querySelector('#lightboxVideo');
   video.pause(); video.removeAttribute('src'); video.load();
-  video.hidden = !isVideo(path); image.hidden = !path || isVideo(path);
+  video.hidden = !isVideo(path); image.hidden = !path || isVideo(path) || !!embeddedId;
   document.querySelector('#lightboxEmpty').hidden = !!path;
   if (isVideo(path)) { video.src = asset(path); video.play().catch(() => {}); }
-  if (path && !isVideo(path)) image.src = asset(path); image.alt = activeProject.title; image.classList.remove('is-zoomed'); image.style.removeProperty('--pan-x'); image.style.removeProperty('--pan-y'); image.style.removeProperty('cursor'); const stage = document.querySelector('.lightbox-stage'); stage.classList.remove('is-zoomed'); stage.style.removeProperty('cursor'); inlinePanX = 0; inlinePanY = 0; inlineDrag = null; inlineDragged = false;
+  if (path && !isVideo(path) && !embeddedId) image.src = asset(path); image.alt = activeProject.title; image.classList.remove('is-zoomed'); image.style.removeProperty('--pan-x'); image.style.removeProperty('--pan-y'); image.style.removeProperty('cursor'); const stage = document.querySelector('.lightbox-stage'); stage.classList.remove('is-zoomed'); stage.style.removeProperty('cursor'); inlinePanX = 0; inlinePanY = 0; inlineDrag = null; inlineDragged = false;
   document.querySelector('#lightboxMeta').innerHTML = `<strong>${activeProject.title}</strong><br>${displayedCategory(activeProject)} · ${activeProject.type}<br>${activeProject.date}<p class="project-description">${isSubstanceProject() ? substanceDescription : projectDescriptions[activeProject.id]}</p><span class="image-position">${isSubstanceProject() ? substanceProjects.indexOf(activeProject) + 1 : activeProject.images.length ? activeImage + 1 : 0} / ${isSubstanceProject() ? substanceProjects.length : activeProject.images.length}</span>`;
   const thumbs = document.querySelector('#lightboxThumbs');
   thumbs.setAttribute('aria-label', isSubstanceProject() ? 'Substance Designer textures' : 'Project images');
-  thumbs.innerHTML = isSubstanceProject() ? substanceProjects.map(project => `<button class="${project === activeProject ? 'active' : ''}" data-texture-project="${project.id}" aria-label="Open ${project.title}" aria-pressed="${project === activeProject}"><img src="${asset(project.cover)}" alt="${project.title}"></button>`).join('') : activeProject.images.map((item, index) => `<button class="${index === activeImage ? 'active' : ''}" data-image-index="${index}" aria-label="Open image ${index + 1}">${isVideo(item) ? `<video src="${asset(item)}" muted preload="metadata"></video>` : `<img src="${asset(item)}" alt="">`}</button>`).join('');
+  thumbs.innerHTML = isSubstanceProject() ? substanceProjects.map(project => `<button class="${project === activeProject ? 'active' : ''}" data-texture-project="${project.id}" aria-label="Open ${project.title}" aria-pressed="${project === activeProject}"><img src="${asset(project.cover)}" alt="${project.title}"></button>`).join('') : activeProject.images.map((item, index) => `<button class="${index === activeImage ? 'active' : ''}" data-image-index="${index}" aria-label="Open ${youtubeId(item) ? 'video' : `image ${index + 1}`}">${youtubeId(item) ? `<img src="${asset(activeProject.cover)}" alt=""><span class="video-thumb-play" aria-hidden="true">▶</span>` : isVideo(item) ? `<video src="${asset(item)}" muted preload="metadata"></video>` : `<img src="${asset(item)}" alt="">`}</button>`).join('');
   const activeThumb = thumbs.querySelector('.active');
   requestAnimationFrame(() => activeThumb?.scrollIntoView({behavior:'smooth', block:'nearest', inline:'nearest'}));
 }
@@ -147,7 +153,10 @@ document.querySelector('#lightbox').addEventListener('cancel', event => { event.
 renderProjects();
 startHeroSlideshow();
 
-document.querySelector('#lightbox').addEventListener('close', () => document.querySelector('#lightboxVideo').pause());
+document.querySelector('#lightbox').addEventListener('close', () => {
+  document.querySelector('#lightboxVideo').pause();
+  document.querySelector('#lightboxYoutube').removeAttribute('src');
+});
 document.addEventListener('keydown', event => {
   const card = event.target.closest('[data-project]');
   if (card && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); openProject(card.dataset.project); }
@@ -155,10 +164,20 @@ document.addEventListener('keydown', event => {
 
 // Play video thumbnails only while their project card is hovered or focused.
 function startCardPreview(card) {
+  const id = byId[card?.dataset.project]?.youtubeId;
+  if (id && !card.querySelector('.youtube-preview')) {
+    const frame = document.createElement('iframe');
+    frame.className = 'youtube-preview'; frame.title = `${byId[card.dataset.project].title} preview`;
+    frame.allow = 'autoplay; encrypted-media'; frame.tabIndex = -1;
+    frame.referrerPolicy = 'strict-origin-when-cross-origin';
+    frame.src = youtubeEmbed(id, true);
+    card.append(frame);
+  }
   const video = card?.querySelector('video');
   if (video) video.play().then(() => { if (card.matches(':hover, :focus')) card.classList.add('is-previewing'); else stopCardPreview(card); }).catch(() => {});
 }
 function stopCardPreview(card) {
+  card?.querySelector('.youtube-preview')?.remove();
   const video = card?.querySelector('video');
   if (video) { card.classList.remove('is-previewing'); video.pause(); video.currentTime = 0; }
 }
