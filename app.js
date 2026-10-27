@@ -36,10 +36,8 @@ function connectViewerYoutube() {
       const id = youtubeId(activeProject?.images[activeImage]);
       if (document.querySelector('#lightbox').open && id) {
         viewerYoutubePlayer.loadVideoById(id);
-        document.querySelector('#youtubeWheelSurface').hidden = false;
       } else viewerYoutubePlayer.stopVideo();
-    },
-    onError: () => { document.querySelector('#youtubeWheelSurface').hidden = true; }
+    }
   }});
 }
 window.onYouTubeIframeAPIReady = connectViewerYoutube;
@@ -114,14 +112,14 @@ function renderLightbox() {
   const youtube = document.querySelector('#lightboxYoutube');
   const embeddedId = youtubeId(path);
   document.querySelector('#youtubeViewer').hidden = !embeddedId;
-  document.querySelector('#youtubeWheelSurface').hidden = true;
+  // Wheel navigation must work even before the YouTube API is ready or on player errors.
+  document.querySelector('#youtubeWheelSurface').hidden = !embeddedId;
   youtube.hidden = !embeddedId;
   if (viewerYoutubeReady) viewerYoutubePlayer.stopVideo();
   if (embeddedId) {
     youtube.title = `${activeProject.title} video`;
     if (viewerYoutubeReady) {
       viewerYoutubePlayer.loadVideoById(embeddedId);
-      document.querySelector('#youtubeWheelSurface').hidden = false;
     } else if (!viewerYoutubePlayer) {
       youtube.src = `${youtubeEmbed(embeddedId)}&enablejsapi=1&origin=${encodeURIComponent(location.origin)}`;
       connectViewerYoutube();
@@ -137,21 +135,30 @@ function renderLightbox() {
   const thumbs = document.querySelector('#lightboxThumbs');
   thumbs.setAttribute('aria-label', isSubstanceProject() ? 'Substance Designer textures' : 'Project images');
   thumbs.innerHTML = isSubstanceProject() ? substanceProjects.map(project => `<button class="${project === activeProject ? 'active' : ''}" data-texture-project="${project.id}" aria-label="Open ${project.title}" aria-pressed="${project === activeProject}"><img src="${asset(project.cover)}" alt="${project.title}"></button>`).join('') : activeProject.images.map((item, index) => `<button class="${index === activeImage ? 'active' : ''}" data-image-index="${index}" aria-label="Open ${youtubeId(item) ? 'video' : `image ${index + 1}`}">${youtubeId(item) ? `<img src="${asset(activeProject.cover)}" alt=""><span class="video-thumb-play" aria-hidden="true">▶</span>` : isVideo(item) ? `<video src="${asset(item)}" muted preload="metadata"></video>` : `<img src="${asset(item)}" alt="">`}</button>`).join('');
-  const activeThumb = thumbs.querySelector('.active');
-  requestAnimationFrame(() => {
-    if (!activeThumb?.isConnected) return;
-    const horizontal = window.matchMedia('(max-width:700px)').matches;
-    const railSize = horizontal ? thumbs.clientWidth : thumbs.clientHeight;
-    const thumbSize = horizontal ? activeThumb.offsetWidth : activeThumb.offsetHeight;
-    thumbs.style.setProperty('--thumb-center-space', `${Math.max(0, (railSize - thumbSize) / 2)}px`);
-    // Scroll only the thumbnail rail, keeping the dialog and page in place.
-    thumbs.scrollTo({
-      top: activeThumb.offsetTop - thumbs.offsetTop - (thumbs.clientHeight - activeThumb.offsetHeight) / 2,
-      left: activeThumb.offsetLeft - thumbs.offsetLeft - (thumbs.clientWidth - activeThumb.offsetWidth) / 2,
-      behavior: 'smooth'
-    });
-  });
+  clearTimeout(thumbnailReturnTimer);
+  requestAnimationFrame(centerSelectedThumbnail);
 }
+let thumbnailReturnTimer;
+function centerSelectedThumbnail() {
+  if (!document.querySelector('#lightbox').open) return;
+  const rail = document.querySelector('#lightboxThumbs');
+  const selected = rail.querySelector('.active');
+  if (!selected) return;
+  const horizontal = window.matchMedia('(max-width:700px)').matches;
+  const railRect = rail.getBoundingClientRect(), selectedRect = selected.getBoundingClientRect();
+  const current = horizontal ? rail.scrollLeft : rail.scrollTop;
+  const viewport = horizontal ? rail.clientWidth : rail.clientHeight;
+  const total = horizontal ? rail.scrollWidth : rail.scrollHeight;
+  const offset = horizontal ? selectedRect.left - railRect.left - rail.clientLeft : selectedRect.top - railRect.top - rail.clientTop;
+  const size = horizontal ? selectedRect.width : selectedRect.height;
+  // Clamp to the real scroll range: the first and last items never need blank spacers.
+  const target = Math.max(0, Math.min(total - viewport, current + offset - (viewport - size) / 2));
+  if (Math.abs(target - current) > 1) rail.scrollTo(horizontal ? {left:target, behavior:'smooth'} : {top:target, behavior:'smooth'});
+}
+document.querySelector('#lightboxThumbs').addEventListener('scroll', () => {
+  clearTimeout(thumbnailReturnTimer);
+  thumbnailReturnTimer = setTimeout(centerSelectedThumbnail, 800);
+}, {passive:true});
 function moveImage(step) { if (isSubstanceProject()) { moveProject(step); return; } if (!activeProject.images.length) return; activeImage = (activeImage + step + activeProject.images.length) % activeProject.images.length; renderLightbox(); }
 function moveProject(step) { const ordered = isSubstanceProject() ? substanceProjects : universityProjects.includes(activeProject) ? universityProjects : orderedProjects(); const current = ordered.findIndex(project => project.id === activeProject.id); activeProject = ordered[(current + step + ordered.length) % ordered.length]; activeImage = 0; renderLightbox(); }
 function toast(message) { const element = document.querySelector('#toast'); element.textContent = message; element.classList.add('visible'); clearTimeout(toast.timer); toast.timer = setTimeout(() => element.classList.remove('visible'), 1800); }
@@ -197,6 +204,7 @@ renderProjects();
 startHeroVideo();
 
 document.querySelector('#lightbox').addEventListener('close', () => {
+  clearTimeout(thumbnailReturnTimer);
   document.querySelector('#lightboxVideo').pause();
   if (viewerYoutubeReady) viewerYoutubePlayer.stopVideo();
   else if (!viewerYoutubePlayer) document.querySelector('#lightboxYoutube').removeAttribute('src');
