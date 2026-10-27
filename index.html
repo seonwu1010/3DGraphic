@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=hero-youtube-v2" />
+    <link rel="stylesheet" href="styles.css?v=viewer-wheel-v3" />
   </head>
   <body>
     <header class="site-header">
@@ -72,7 +72,7 @@
     <dialog id="lightbox" class="lightbox">
       <section class="viewer-main" aria-label="Project image viewer">
         <button class="lightbox-nav previous" aria-label="Previous project">←</button>
-        <div class="lightbox-stage"><img id="lightboxImage" alt="Click to zoom image" /><video id="lightboxVideo" controls playsinline hidden></video><iframe id="lightboxYoutube" title="Project video" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen hidden></iframe><p id="lightboxEmpty" hidden>Project coming soon.</p></div>
+        <div class="lightbox-stage"><img id="lightboxImage" alt="Click to zoom image" /><video id="lightboxVideo" controls playsinline hidden></video><div id="youtubeViewer" hidden><iframe id="lightboxYoutube" title="Project video" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen hidden></iframe><button id="youtubeWheelSurface" type="button" aria-label="Play or pause video; scroll to browse images" hidden></button></div><p id="lightboxEmpty" hidden>Project coming soon.</p></div>
         <button class="lightbox-nav next" aria-label="Next project">→</button>
       </section>
       <aside class="viewer-sidebar">
@@ -82,6 +82,7 @@
       </aside>
     </dialog>
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
-    <script src="app.js?v=hero-youtube-v2"></script>
+    <script src="app.js?v=viewer-wheel-v3"></script>
+    <script src="https://www.youtube.com/iframe_api" async></script>
   </body>
 </html>

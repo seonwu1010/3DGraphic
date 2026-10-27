@@ -57,8 +57,12 @@
 .project-card .video-poster{z-index:1;pointer-events:none}.project-card.is-previewing .video-poster{visibility:hidden}
 .hero-video{background:url('Personal/202610_Carriage/0.png') center/cover no-repeat;pointer-events:none}
 .hero-video iframe{position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;min-width:177.778vh;min-height:100vh;transform:translate(-50%,-50%);border:0;pointer-events:none}
-#lightboxYoutube{width:100%;aspect-ratio:16/9;max-height:100%;border:0;background:#000}
+#youtubeViewer{position:relative;width:100%;aspect-ratio:16/9;max-height:100%}
+#lightboxYoutube{display:block;width:100%;height:100%;border:0;background:#000}
+/* Receive wheel events over the video while leaving YouTube's controls accessible. */
+#youtubeWheelSurface{position:absolute;inset:60px 0 72px;border:0;padding:0;background:transparent;cursor:pointer}
 .lightbox-thumbs button{position:relative}
+.lightbox-thumbs::before,.lightbox-thumbs::after{content:"";display:block;flex:0 0 var(--thumb-center-space,0px)}
 .video-thumb-play{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:26px;text-shadow:0 2px 8px #000;background:rgba(0,0,0,.2)}
 
 /* Keep section headings slightly smaller than the hero title. */

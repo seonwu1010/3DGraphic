@@ -26,6 +26,23 @@ const universityProjects = [
 const isVideo = path => /\.mp4(?:\?|$)/i.test(path || '');
 const youtubeId = path => /^https:\/\/www\.youtube\.com\/watch\?v=([\w-]{11})$/.exec(path || '')?.[1];
 const youtubeEmbed = (id, background = false) => `https://www.youtube.com/embed/${id}?autoplay=1&playsinline=1&rel=0${background ? `&mute=1&controls=0&disablekb=1&loop=1&playlist=${id}` : ''}`;
+let viewerYoutubePlayer, viewerYoutubeReady = false;
+function connectViewerYoutube() {
+  const frame = document.querySelector('#lightboxYoutube');
+  if (!window.YT?.Player || viewerYoutubePlayer || frame.hidden) return;
+  viewerYoutubePlayer = new YT.Player(frame, {events: {
+    onReady: () => {
+      viewerYoutubeReady = true;
+      const id = youtubeId(activeProject?.images[activeImage]);
+      if (document.querySelector('#lightbox').open && id) {
+        viewerYoutubePlayer.loadVideoById(id);
+        document.querySelector('#youtubeWheelSurface').hidden = false;
+      } else viewerYoutubePlayer.stopVideo();
+    },
+    onError: () => { document.querySelector('#youtubeWheelSurface').hidden = true; }
+  }});
+}
+window.onYouTubeIframeAPIReady = connectViewerYoutube;
 const previewMedia = (path, title, poster) => !path ? '<span class="pending-preview">COMING SOON</span>' : isVideo(path) ? `${poster ? `<img class="video-poster" src="${asset(poster)}" alt="${title}">` : ''}<video src="${asset(path)}" ${poster ? `poster="${asset(poster)}"` : ''} muted loop playsinline preload="metadata" aria-label="${title}"></video>` : `<img src="${asset(path)}" alt="${title}" loading="lazy">`;
 const projectCard = project => `<article class="project-card" data-project="${project.id}" tabindex="0" role="button" aria-label="Open ${project.title}">${previewMedia(project.cover, project.title, project.poster)}<div class="card-info"><span class="card-heading"><span class="card-title">${project.title}</span><span class="card-date">${project.date}</span></span><span class="card-views">${displayedCategory(project)} · ${project.type}</span></div></article>`;
 const projectDescriptions = {
@@ -96,8 +113,20 @@ function renderLightbox() {
   const path = activeProject.images[activeImage];
   const youtube = document.querySelector('#lightboxYoutube');
   const embeddedId = youtubeId(path);
-  youtube.removeAttribute('src'); youtube.hidden = !embeddedId;
-  if (embeddedId) { youtube.title = `${activeProject.title} video`; youtube.src = youtubeEmbed(embeddedId); }
+  document.querySelector('#youtubeViewer').hidden = !embeddedId;
+  document.querySelector('#youtubeWheelSurface').hidden = true;
+  youtube.hidden = !embeddedId;
+  if (viewerYoutubeReady) viewerYoutubePlayer.stopVideo();
+  if (embeddedId) {
+    youtube.title = `${activeProject.title} video`;
+    if (viewerYoutubeReady) {
+      viewerYoutubePlayer.loadVideoById(embeddedId);
+      document.querySelector('#youtubeWheelSurface').hidden = false;
+    } else if (!viewerYoutubePlayer) {
+      youtube.src = `${youtubeEmbed(embeddedId)}&enablejsapi=1&origin=${encodeURIComponent(location.origin)}`;
+      connectViewerYoutube();
+    }
+  } else if (!viewerYoutubePlayer) youtube.removeAttribute('src');
   const image = document.querySelector('#lightboxImage'); const video = document.querySelector('#lightboxVideo');
   video.pause(); video.removeAttribute('src'); video.load();
   video.hidden = !isVideo(path); image.hidden = !path || isVideo(path) || !!embeddedId;
@@ -109,7 +138,19 @@ function renderLightbox() {
   thumbs.setAttribute('aria-label', isSubstanceProject() ? 'Substance Designer textures' : 'Project images');
   thumbs.innerHTML = isSubstanceProject() ? substanceProjects.map(project => `<button class="${project === activeProject ? 'active' : ''}" data-texture-project="${project.id}" aria-label="Open ${project.title}" aria-pressed="${project === activeProject}"><img src="${asset(project.cover)}" alt="${project.title}"></button>`).join('') : activeProject.images.map((item, index) => `<button class="${index === activeImage ? 'active' : ''}" data-image-index="${index}" aria-label="Open ${youtubeId(item) ? 'video' : `image ${index + 1}`}">${youtubeId(item) ? `<img src="${asset(activeProject.cover)}" alt=""><span class="video-thumb-play" aria-hidden="true">▶</span>` : isVideo(item) ? `<video src="${asset(item)}" muted preload="metadata"></video>` : `<img src="${asset(item)}" alt="">`}</button>`).join('');
   const activeThumb = thumbs.querySelector('.active');
-  requestAnimationFrame(() => activeThumb?.scrollIntoView({behavior:'smooth', block:'nearest', inline:'nearest'}));
+  requestAnimationFrame(() => {
+    if (!activeThumb?.isConnected) return;
+    const horizontal = window.matchMedia('(max-width:700px)').matches;
+    const railSize = horizontal ? thumbs.clientWidth : thumbs.clientHeight;
+    const thumbSize = horizontal ? activeThumb.offsetWidth : activeThumb.offsetHeight;
+    thumbs.style.setProperty('--thumb-center-space', `${Math.max(0, (railSize - thumbSize) / 2)}px`);
+    // Scroll only the thumbnail rail, keeping the dialog and page in place.
+    thumbs.scrollTo({
+      top: activeThumb.offsetTop - thumbs.offsetTop - (thumbs.clientHeight - activeThumb.offsetHeight) / 2,
+      left: activeThumb.offsetLeft - thumbs.offsetLeft - (thumbs.clientWidth - activeThumb.offsetWidth) / 2,
+      behavior: 'smooth'
+    });
+  });
 }
 function moveImage(step) { if (isSubstanceProject()) { moveProject(step); return; } if (!activeProject.images.length) return; activeImage = (activeImage + step + activeProject.images.length) % activeProject.images.length; renderLightbox(); }
 function moveProject(step) { const ordered = isSubstanceProject() ? substanceProjects : universityProjects.includes(activeProject) ? universityProjects : orderedProjects(); const current = ordered.findIndex(project => project.id === activeProject.id); activeProject = ordered[(current + step + ordered.length) % ordered.length]; activeImage = 0; renderLightbox(); }
@@ -128,7 +169,20 @@ document.addEventListener('click', event => {
   if (event.target.closest('.next')) moveProject(1);
   if (event.target.closest('#copyEmail')) navigator.clipboard.writeText('seonwu1010@naver.com').then(() => toast('Email address copied.'));
 });
-document.querySelector('.viewer-main').addEventListener('wheel', event => { event.preventDefault(); moveImage(event.deltaY > 0 ? 1 : -1); }, {passive:false});
+let lastViewerWheel = -Infinity;
+document.querySelector('.viewer-main').addEventListener('wheel', event => {
+  if (event.ctrlKey || !event.deltaY) return;
+  event.preventDefault();
+  const now = performance.now();
+  if (now - lastViewerWheel < 180) return;
+  lastViewerWheel = now;
+  moveImage(event.deltaY > 0 ? 1 : -1);
+}, {passive:false});
+document.querySelector('#youtubeWheelSurface').addEventListener('click', () => {
+  if (!viewerYoutubeReady) return;
+  if (viewerYoutubePlayer.getPlayerState() === YT.PlayerState.PLAYING) viewerYoutubePlayer.pauseVideo();
+  else viewerYoutubePlayer.playVideo();
+});
 document.querySelector('#lightboxImage').addEventListener('click', event => { event.stopPropagation(); if (inlineDragged) { inlineDragged = false; return; } const image = event.currentTarget; const zoomed = image.classList.toggle('is-zoomed'); document.querySelector('.lightbox-stage').classList.toggle('is-zoomed', zoomed); if (!zoomed) { inlinePanX = 0; inlinePanY = 0; image.style.removeProperty('--pan-x'); image.style.removeProperty('--pan-y'); } });
 document.querySelector('.lightbox-stage').addEventListener('pointerdown', event => { const image = document.querySelector('#lightboxImage'); if (event.button !== 0 || !image.classList.contains('is-zoomed')) return; inlineDragged = false; inlineDrag = {x:event.clientX, y:event.clientY, panX:inlinePanX, panY:inlinePanY, pointerId:event.pointerId}; });
 document.querySelector('.lightbox-stage').addEventListener('pointermove', event => { if (!inlineDrag || (event.buttons & 1) === 0) return; const deltaX = event.clientX - inlineDrag.x; const deltaY = event.clientY - inlineDrag.y; if (Math.abs(deltaX) > 2 || Math.abs(deltaY) > 2) { if (!inlineDragged) event.currentTarget.setPointerCapture(inlineDrag.pointerId); inlineDragged = true; event.currentTarget.style.cursor = 'grabbing'; } inlinePanX = inlineDrag.panX + deltaX; inlinePanY = inlineDrag.panY + deltaY; const image = document.querySelector('#lightboxImage'); image.style.setProperty('--pan-x', `${inlinePanX}px`); image.style.setProperty('--pan-y', `${inlinePanY}px`); });
@@ -144,7 +198,8 @@ startHeroVideo();
 
 document.querySelector('#lightbox').addEventListener('close', () => {
   document.querySelector('#lightboxVideo').pause();
-  document.querySelector('#lightboxYoutube').removeAttribute('src');
+  if (viewerYoutubeReady) viewerYoutubePlayer.stopVideo();
+  else if (!viewerYoutubePlayer) document.querySelector('#lightboxYoutube').removeAttribute('src');
 });
 document.addEventListener('keydown', event => {
   const card = event.target.closest('[data-project]');
