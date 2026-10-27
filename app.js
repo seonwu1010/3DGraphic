@@ -19,7 +19,7 @@ const substanceProjects = [
 ];
 const substanceDescription = 'Substance 3D Designer를 활용하여 다양한 재질의 텍스처를 제작한 개인 작업입니다. 재질별 특징과 표면 디테일을 표현하며 텍스처 제작 과정을 익혔습니다.';
 const universityProjects = [
-  {id:'3drive', title:'3Drive', category:'University', type:'Project', date:'', cover:'University Project/3Drive/PV-web.mp4?v=2', poster:'University Project/3Drive/poster.jpg?v=4', images:['University Project/3Drive/PV-web.mp4?v=2']},
+  {id:'3drive', title:'3Drive', category:'University', type:'Project', date:'', cover:'University Project/3Drive/PV-web.mp4?v=2', poster:'University Project/3Drive/poster.jpg?v=4', images:['University Project/3Drive/PV-web.mp4?v=2','University Project/3Drive/final-demo-page-3.jpg','University Project/3Drive/final-demo-page-4.jpg','University Project/3Drive/final-demo-page-5.jpg','University Project/3Drive/final-demo-page-6.jpg']},
   {id:'kirna', title:'Kirna', category:'University', type:'Project', date:'', images:[]},
   {id:'puangjump', title:'Puang Jump', category:'University', type:'Project', date:'', cover:'University Project/Puang_Jump/Puang_JUMP-web.mp4?v=1', poster:'University Project/Puang_Jump/poster.jpg?v=1', images:['University Project/Puang_Jump/Puang_JUMP-web.mp4?v=1','University Project/Puang_Jump/Dot art.jpg']},
 ];
