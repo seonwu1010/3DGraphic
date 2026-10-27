@@ -59,6 +59,9 @@ const projectDescriptions = {
 const byId = Object.fromEntries([...projects, ...substanceProjects, ...universityProjects].map(project => [project.id, project]));
 // Refresh renamed/replaced images even when the browser cached the same filename.
 const imageRevisions = {
+  "Substance Designer/1.jpg": "50b0ed7d1e20",
+  "Substance Designer/2.jpg": "c255e66fa72a",
+  "Substance Designer/3.jpg": "5c3059666ecb",
   "Personal/202610_Carriage/0.png": "a082d4d9e335",
   "Personal/202610_Carriage/1.png": "0a0ee3589a7b",
   "Personal/202610_Carriage/4.jpg": "ed37ab84b78e",
