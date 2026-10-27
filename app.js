@@ -5,7 +5,7 @@ const projects = [
   {id:'sofa', title:'SOFA', category:'Personal', type:'Props', date:'2026.06', sortKey:202606, cover:'Personal/202606_Sofa/1.jpg', images:['Personal/202606_Sofa/1.jpg','Personal/202606_Sofa/2.jpg','Personal/202606_Sofa/3.jpg']},
   {id:'axegun', title:'AXE GUN', category:'Personal', type:'Props', date:'2026.07', sortKey:202607, cover:'Personal/202607_AxeGun/1.jpg', images:['Personal/202607_AxeGun/1.jpg','Personal/202607_AxeGun/2.jpg','Personal/202607_AxeGun/3.jpg','Personal/202607_AxeGun/4.jpg','Personal/202607_AxeGun/5.jpg']},
   {id:'fantasyaxe', title:'FANTASY AXE', category:'Personal', type:'Props', date:'2026.08', sortKey:202608, cover:'Personal/202608_FantasyAxe/1.jpg', images:['Personal/202608_FantasyAxe/1.jpg','Personal/202608_FantasyAxe/2.jpg','Personal/202608_FantasyAxe/3.jpg']},
-  {id:'carriage', title:'CARRIAGE', category:'Personal', type:'Props', date:'2026.10', sortKey:202610, cover:'Personal/202610_Carriage/0.png', youtubeId:'bCY-vqUBD3A', images:['https://www.youtube.com/watch?v=bCY-vqUBD3A','Personal/202610_Carriage/0.png','Personal/202610_Carriage/1.jpg','Personal/202610_Carriage/2.jpg','Personal/202610_Carriage/3.jpg','Personal/202610_Carriage/4.jpg','Personal/202610_Carriage/5.jpg','Personal/202610_Carriage/6.jpg','Personal/202610_Carriage/7.jpg','Personal/202610_Carriage/8.jpg','Personal/202610_Carriage/9.jpg','Personal/202610_Carriage/10.jpg','Personal/202610_Carriage/11.jpg','Personal/202610_Carriage/12.jpg']},
+  {id:'carriage', title:'CARRIAGE', category:'Personal', type:'Props', date:'2026.10', sortKey:202610, cover:'Personal/202610_Carriage/0.png', images:['https://www.youtube.com/watch?v=bCY-vqUBD3A','Personal/202610_Carriage/0.png','Personal/202610_Carriage/1.jpg','Personal/202610_Carriage/2.jpg','Personal/202610_Carriage/3.jpg','Personal/202610_Carriage/4.jpg','Personal/202610_Carriage/5.jpg','Personal/202610_Carriage/6.jpg','Personal/202610_Carriage/7.jpg','Personal/202610_Carriage/8.jpg','Personal/202610_Carriage/9.jpg','Personal/202610_Carriage/10.jpg','Personal/202610_Carriage/11.jpg','Personal/202610_Carriage/12.jpg']},
   {id:'zbrush', title:'ZBRUSH STUDY', category:'ZBrush', type:'ZBrush', date:'2024–2026', sortKey:202606, cover:'Personal/ZBrush/Zbrush/202606_Rock3/1.jpg', images:['Personal/ZBrush/Zbrush/202606_Rock3/1.jpg','Personal/ZBrush/Zbrush/202606_Rock3/2.jpg','Personal/ZBrush/Zbrush/202606_Rock3/3.jpg','Personal/ZBrush/Zbrush/202606_Rock3/4.jpg','Personal/ZBrush/Zbrush/202606_Rock3/5.jpg','Personal/ZBrush/Zbrush/202604_Rock2/1.jpg','Personal/ZBrush/Zbrush/202604_Rock2/2.jpg','Personal/ZBrush/Zbrush/202603_Rock/1.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/1.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/2.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/3.jpg']},
 ];
 // Each texture has one image; the viewer shares navigation across this collection.
@@ -25,7 +25,7 @@ const universityProjects = [
 ];
 const isVideo = path => /\.mp4(?:\?|$)/i.test(path || '');
 const youtubeId = path => /^https:\/\/www\.youtube\.com\/watch\?v=([\w-]{11})$/.exec(path || '')?.[1];
-const youtubeEmbed = (id, preview = false) => `https://www.youtube.com/embed/${id}?autoplay=1&playsinline=1&rel=0${preview ? `&mute=1&controls=0&disablekb=1&loop=1&playlist=${id}` : ''}`;
+const youtubeEmbed = (id, background = false) => `https://www.youtube.com/embed/${id}?autoplay=1&playsinline=1&rel=0${background ? `&mute=1&controls=0&disablekb=1&loop=1&playlist=${id}` : ''}`;
 const previewMedia = (path, title, poster) => !path ? '<span class="pending-preview">COMING SOON</span>' : isVideo(path) ? `${poster ? `<img class="video-poster" src="${asset(poster)}" alt="${title}">` : ''}<video src="${asset(path)}" ${poster ? `poster="${asset(poster)}"` : ''} muted loop playsinline preload="metadata" aria-label="${title}"></video>` : `<img src="${asset(path)}" alt="${title}" loading="lazy">`;
 const projectCard = project => `<article class="project-card" data-project="${project.id}" tabindex="0" role="button" aria-label="Open ${project.title}">${previewMedia(project.cover, project.title, project.poster)}<div class="card-info"><span class="card-heading"><span class="card-title">${project.title}</span><span class="card-date">${project.date}</span></span><span class="card-views">${displayedCategory(project)} · ${project.type}</span></div></article>`;
 const projectDescriptions = {
@@ -114,19 +114,8 @@ function renderLightbox() {
 function moveImage(step) { if (isSubstanceProject()) { moveProject(step); return; } if (!activeProject.images.length) return; activeImage = (activeImage + step + activeProject.images.length) % activeProject.images.length; renderLightbox(); }
 function moveProject(step) { const ordered = isSubstanceProject() ? substanceProjects : universityProjects.includes(activeProject) ? universityProjects : orderedProjects(); const current = ordered.findIndex(project => project.id === activeProject.id); activeProject = ordered[(current + step + ordered.length) % ordered.length]; activeImage = 0; renderLightbox(); }
 function toast(message) { const element = document.querySelector('#toast'); element.textContent = message; element.classList.add('visible'); clearTimeout(toast.timer); toast.timer = setTimeout(() => element.classList.remove('visible'), 1800); }
-function startHeroSlideshow() {
-  const slides = [...document.querySelectorAll('.hero-slide')];
-  const covers = projects.map(project => project.cover);
-  let current = 0, front = 0;
-  slides[front].style.backgroundImage = `url("${asset(covers[current])}")`;
-  setInterval(() => {
-    current = (current + 1) % covers.length;
-    const back = front === 0 ? 1 : 0;
-    slides[back].style.backgroundImage = `url("${asset(covers[current])}")`;
-    slides[back].classList.add('is-active');
-    slides[front].classList.remove('is-active');
-    front = back;
-  }, 10000);
+function startHeroVideo() {
+  document.querySelector('#heroYoutube').src = youtubeEmbed('bCY-vqUBD3A', true);
 }
 
 document.addEventListener('click', event => {
@@ -151,7 +140,7 @@ document.querySelector('#lightboxImage').addEventListener('dragstart', event => 
 document.addEventListener('keydown', event => { if (event.key === 'Escape') { const viewer = document.querySelector('#lightbox'); if (viewer.open) { event.preventDefault(); viewer.close(); } } });
 document.querySelector('#lightbox').addEventListener('cancel', event => { event.preventDefault(); event.currentTarget.close(); });
 renderProjects();
-startHeroSlideshow();
+startHeroVideo();
 
 document.querySelector('#lightbox').addEventListener('close', () => {
   document.querySelector('#lightboxVideo').pause();
@@ -164,20 +153,10 @@ document.addEventListener('keydown', event => {
 
 // Play video thumbnails only while their project card is hovered or focused.
 function startCardPreview(card) {
-  const id = byId[card?.dataset.project]?.youtubeId;
-  if (id && !card.querySelector('.youtube-preview')) {
-    const frame = document.createElement('iframe');
-    frame.className = 'youtube-preview'; frame.title = `${byId[card.dataset.project].title} preview`;
-    frame.allow = 'autoplay; encrypted-media'; frame.tabIndex = -1;
-    frame.referrerPolicy = 'strict-origin-when-cross-origin';
-    frame.src = youtubeEmbed(id, true);
-    card.append(frame);
-  }
   const video = card?.querySelector('video');
   if (video) video.play().then(() => { if (card.matches(':hover, :focus')) card.classList.add('is-previewing'); else stopCardPreview(card); }).catch(() => {});
 }
 function stopCardPreview(card) {
-  card?.querySelector('.youtube-preview')?.remove();
   const video = card?.querySelector('video');
   if (video) { card.classList.remove('is-previewing'); video.pause(); video.currentTime = 0; }
 }
