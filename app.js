@@ -21,7 +21,7 @@ const substanceDescription = 'Substance 3D Designer를 활용하여 다양한 �
 const universityProjects = [
   {id:'3drive', title:'3Drive', category:'University', type:'Project', date:'', cover:'University Project/3Drive/PV-web.mp4?v=2', poster:'University Project/3Drive/poster.jpg?v=4', images:['University Project/3Drive/PV-web.mp4?v=2']},
   {id:'kirna', title:'Kirna', category:'University', type:'Project', date:'', images:[]},
-  {id:'puangjump', title:'Puang Jump', category:'University', type:'Project', date:'', cover:'University Project/Puang_Jump/Puang_JUMP-web.mp4?v=1', poster:'University Project/Puang_Jump/poster.jpg?v=1', images:['University Project/Puang_Jump/Puang_JUMP-web.mp4?v=1']},
+  {id:'puangjump', title:'Puang Jump', category:'University', type:'Project', date:'', cover:'University Project/Puang_Jump/Puang_JUMP-web.mp4?v=1', poster:'University Project/Puang_Jump/poster.jpg?v=1', images:['University Project/Puang_Jump/Puang_JUMP-web.mp4?v=1','University Project/Puang_Jump/Dot art.jpg']},
 ];
 const isVideo = path => /\.mp4(?:\?|$)/i.test(path || '');
 const youtubeId = path => /^https:\/\/www\.youtube\.com\/watch\?v=([\w-]{11})$/.exec(path || '')?.[1];
