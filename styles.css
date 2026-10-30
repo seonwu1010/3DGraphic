@@ -55,7 +55,7 @@
 @media(max-width:700px){.university .section-title h2{font-size:10vw}.university-grid .project-card:nth-child(n){grid-column:span 2;grid-row:span 1}}
 
 .project-card .video-poster{z-index:1;pointer-events:none}.project-card.is-previewing .video-poster{visibility:hidden}
-.hero-video{background:url('Personal/202610_Carriage/0.png') center/cover no-repeat;pointer-events:none}
+.hero-video{background:url('Personal/202610_Carriage/0.jpg?v=a728950a1cf0') center/cover no-repeat;pointer-events:none}
 .hero-video iframe{position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;min-width:177.778vh;min-height:100vh;transform:translate(-50%,-50%);border:0;pointer-events:none}
 #youtubeViewer{position:relative;width:100%;aspect-ratio:16/9;max-height:100%}
 #lightboxYoutube{display:block;width:100%;height:100%;border:0;background:#000}

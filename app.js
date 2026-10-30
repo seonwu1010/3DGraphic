@@ -5,7 +5,7 @@ const projects = [
   {id:'sofa', title:'SOFA', category:'Personal', type:'Props', date:'2026.06', sortKey:202606, cover:'Personal/202606_Sofa/1.jpg', images:['Personal/202606_Sofa/1.jpg','Personal/202606_Sofa/2.jpg','Personal/202606_Sofa/3.jpg']},
   {id:'axegun', title:'AXE GUN', category:'Personal', type:'Props', date:'2026.07', sortKey:202607, cover:'Personal/202607_AxeGun/1.jpg', images:['Personal/202607_AxeGun/1.jpg','Personal/202607_AxeGun/2.jpg','Personal/202607_AxeGun/3.jpg','Personal/202607_AxeGun/4.jpg','Personal/202607_AxeGun/5.jpg']},
   {id:'fantasyaxe', title:'FANTASY AXE', category:'Personal', type:'Props', date:'2026.08', sortKey:202608, cover:'Personal/202608_FantasyAxe/1.jpg', images:['Personal/202608_FantasyAxe/1.jpg','Personal/202608_FantasyAxe/2.jpg','Personal/202608_FantasyAxe/3.jpg']},
-  {id:'carriage', title:'CARRIAGE', category:'Personal', type:'Props', date:'2026.10', sortKey:202610, cover:'Personal/202610_Carriage/0.png', images:['https://www.youtube.com/watch?v=bCY-vqUBD3A','Personal/202610_Carriage/0.png','Personal/202610_Carriage/1.png','Personal/202610_Carriage/4.jpg','Personal/202610_Carriage/5.jpg','Personal/202610_Carriage/6.jpg','Personal/202610_Carriage/7.jpg','Personal/202610_Carriage/8.jpg','Personal/202610_Carriage/9.jpg','Personal/202610_Carriage/10.jpg','Personal/202610_Carriage/11.jpg','Personal/202610_Carriage/12.jpg','Personal/202610_Carriage/13.jpg','Personal/202610_Carriage/14.jpg','Personal/202610_Carriage/15.jpg']},
+  {id:'carriage', title:'CARRIAGE', category:'Personal', type:'Props', date:'2026.10', sortKey:202610, cover:'Personal/202610_Carriage/0.jpg', images:['https://www.youtube.com/watch?v=uA1c-HmE3bM','Personal/202610_Carriage/0.jpg','Personal/202610_Carriage/1.jpg','Personal/202610_Carriage/4.jpg','Personal/202610_Carriage/5.jpg','Personal/202610_Carriage/6.jpg','Personal/202610_Carriage/7.jpg','Personal/202610_Carriage/8.jpg','Personal/202610_Carriage/9.jpg','Personal/202610_Carriage/10.jpg','Personal/202610_Carriage/11.jpg','Personal/202610_Carriage/12.jpg','Personal/202610_Carriage/13.jpg']},
   {id:'zbrush', title:'ZBRUSH STUDY', category:'ZBrush', type:'ZBrush', date:'2024–2026', sortKey:202606, cover:'Personal/ZBrush/Zbrush/202606_Rock3/1.jpg', images:['Personal/ZBrush/Zbrush/202606_Rock3/1.jpg','Personal/ZBrush/Zbrush/202606_Rock3/2.jpg','Personal/ZBrush/Zbrush/202606_Rock3/3.jpg','Personal/ZBrush/Zbrush/202606_Rock3/4.jpg','Personal/ZBrush/Zbrush/202606_Rock3/5.jpg','Personal/ZBrush/Zbrush/202604_Rock2/1.jpg','Personal/ZBrush/Zbrush/202604_Rock2/2.jpg','Personal/ZBrush/Zbrush/202603_Rock/1.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/1.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/2.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/3.jpg']},
 ];
 // Each texture has one image; the viewer shares navigation across this collection.
@@ -62,20 +62,18 @@ const imageRevisions = {
   "Substance Designer/1.jpg": "50b0ed7d1e20",
   "Substance Designer/2.jpg": "c255e66fa72a",
   "Substance Designer/3.jpg": "5c3059666ecb",
-  "Personal/202610_Carriage/0.png": "a082d4d9e335",
-  "Personal/202610_Carriage/1.png": "0a0ee3589a7b",
-  "Personal/202610_Carriage/4.jpg": "ed37ab84b78e",
-  "Personal/202610_Carriage/5.jpg": "9a55b4bff76e",
-  "Personal/202610_Carriage/6.jpg": "7cd81e7f2d7b",
-  "Personal/202610_Carriage/7.jpg": "f36ffec470b4",
-  "Personal/202610_Carriage/8.jpg": "435be960c24f",
-  "Personal/202610_Carriage/9.jpg": "d13d4c0b6e8d",
+  "Personal/202610_Carriage/0.jpg": "a728950a1cf0",
+  "Personal/202610_Carriage/1.jpg": "eb84ab586de1",
+  "Personal/202610_Carriage/4.jpg": "5e1e8faa4eeb",
+  "Personal/202610_Carriage/5.jpg": "acb9909e8cdd",
+  "Personal/202610_Carriage/6.jpg": "b9c994b30541",
+  "Personal/202610_Carriage/7.jpg": "9639f403f12a",
+  "Personal/202610_Carriage/8.jpg": "cca46adbcb3b",
+  "Personal/202610_Carriage/9.jpg": "6bfec0b28c4e",
   "Personal/202610_Carriage/10.jpg": "c34369a92462",
-  "Personal/202610_Carriage/11.jpg": "8c577960dee1",
-  "Personal/202610_Carriage/12.jpg": "20e4d8e69f4f",
-  "Personal/202610_Carriage/13.jpg": "e7a32d162efe",
-  "Personal/202610_Carriage/14.jpg": "ba6d110df7af",
-  "Personal/202610_Carriage/15.jpg": "bb5f0d753bd3",
+  "Personal/202610_Carriage/11.jpg": "09ac4f9fefe6",
+  "Personal/202610_Carriage/12.jpg": "60c3b914ac26",
+  "Personal/202610_Carriage/13.jpg": "fc7234d4be17",
   "Personal/202606_Sofa/1.jpg": "8d1945b424ac",
   "Personal/202606_Sofa/2.jpg": "8ce1ff4d3497",
   "Personal/202606_Sofa/3.jpg": "ba8bff299f2f",
@@ -220,7 +218,7 @@ function moveImage(step) { if (isSubstanceProject()) { moveProject(step); return
 function moveProject(step) { const ordered = isSubstanceProject() ? substanceProjects : universityProjects.includes(activeProject) ? universityProjects : orderedProjects(); const current = ordered.findIndex(project => project.id === activeProject.id); activeProject = ordered[(current + step + ordered.length) % ordered.length]; activeImage = 0; renderLightbox(); }
 function toast(message) { const element = document.querySelector('#toast'); element.textContent = message; element.classList.add('visible'); clearTimeout(toast.timer); toast.timer = setTimeout(() => element.classList.remove('visible'), 1800); }
 function startHeroVideo() {
-  document.querySelector('#heroYoutube').src = youtubeEmbed('bCY-vqUBD3A', true);
+  document.querySelector('#heroYoutube').src = youtubeEmbed('uA1c-HmE3bM', true);
 }
 
 document.addEventListener('click', event => {
