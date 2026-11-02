@@ -74,7 +74,7 @@ const imageRevisions = {
   "Personal/202610_Carriage/11.jpg": "09ac4f9fefe6",
   "Personal/202610_Carriage/12.jpg": "60c3b914ac26",
   "Personal/202610_Carriage/13.jpg": "fc7234d4be17",
-  "Personal/202610_Carriage/14.jpg": "514f0e9a2869",
+  "Personal/202610_Carriage/14.jpg": "451e955ba87b",
   "Personal/202606_Sofa/1.jpg": "8d1945b424ac",
   "Personal/202606_Sofa/2.jpg": "8ce1ff4d3497",
   "Personal/202606_Sofa/3.jpg": "ba8bff299f2f",
