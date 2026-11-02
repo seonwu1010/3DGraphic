@@ -16,6 +16,7 @@ const substanceProjects = [
   {id:'substance-texture-4', title:'CHAINMAIL', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/4.jpg', images:['Substance Designer/4.jpg']},
   {id:'substance-texture-5', title:'RED TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/5.jpg', images:['Substance Designer/5.jpg']},
   {id:'substance-texture-6', title:'WORN RED TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/6.jpg', images:['Substance Designer/6.jpg']},
+  {id:'substance-texture-7', title:'TUFTED LEATHER', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/7.jpg', images:['Substance Designer/7.jpg']},
 ];
 const substanceDescription = 'Substance 3D Designer를 활용하여 다양한 재질의 텍스처를 제작한 개인 작업입니다. 재질별 특징과 표면 디테일을 표현하며 텍스처 제작 과정을 익혔습니다.';
 const universityProjects = [
@@ -59,6 +60,7 @@ const projectDescriptions = {
 const byId = Object.fromEntries([...projects, ...substanceProjects, ...universityProjects].map(project => [project.id, project]));
 // Refresh renamed/replaced images even when the browser cached the same filename.
 const imageRevisions = {
+  "Substance Designer/7.jpg": "267c1b406c49",
   "Substance Designer/1.jpg": "50b0ed7d1e20",
   "Substance Designer/2.jpg": "c255e66fa72a",
   "Substance Designer/3.jpg": "5c3059666ecb",
