@@ -21,7 +21,7 @@ const substanceProjects = [
 const substanceDescription = 'Substance 3D Designer를 활용하여 다양한 재질의 텍스처를 제작한 개인 작업입니다. 재질별 특징과 표면 디테일을 표현하며 텍스처 제작 과정을 익혔습니다.';
 const universityProjects = [
   {id:'3drive', title:'3Drive', category:'University', type:'Project', date:'', cover:'University Project/3Drive/PV-web.mp4?v=2', poster:'University Project/3Drive/poster.jpg?v=4', images:['University Project/3Drive/PV-web.mp4?v=2','University Project/3Drive/final-demo-page-3.jpg','University Project/3Drive/final-demo-page-4.jpg','University Project/3Drive/final-demo-page-5.jpg','University Project/3Drive/final-demo-page-6.jpg']},
-  {id:'kirna', title:'Kirna', category:'University', type:'Project', date:'', images:[]},
+  {id:'kirna', title:'Kirna', category:'University', type:'Project', date:'', cover:'University Project/Kirna/1.png', images:['University Project/Kirna/1.png','University Project/Kirna/2.png','University Project/Kirna/3.png','University Project/Kirna/4.png','University Project/Kirna/5.png','University Project/Kirna/6.png','University Project/Kirna/7.png','University Project/Kirna/8.png','University Project/Kirna/9.png']},
   {id:'puangjump', title:'Puang Jump', category:'University', type:'Project', date:'', cover:'University Project/Puang_Jump/Puang_JUMP-web.mp4?v=1', poster:'University Project/Puang_Jump/poster.jpg?v=1', images:['University Project/Puang_Jump/Puang_JUMP-web.mp4?v=1','University Project/Puang_Jump/Dot art.jpg']},
 ];
 const isVideo = path => /\.mp4(?:\?|$)/i.test(path || '');
@@ -46,7 +46,7 @@ const previewMedia = (path, title, poster) => !path ? '<span class="pending-prev
 const projectCard = project => `<article class="project-card" data-project="${project.id}" tabindex="0" role="button" aria-label="Open ${project.title}">${previewMedia(project.cover, project.title, project.poster)}<div class="card-info"><span class="card-heading"><span class="card-title">${project.title}</span><span class="card-date">${project.date}</span></span><span class="card-views">${displayedCategory(project)} · ${project.type}</span></div></article>`;
 const projectDescriptions = {
   '3drive': '4학년 1학기 캡스톤디자인(2) 수업에서 진행한 3Drive 프로젝트입니다. 기존 클라우드 스토리지보다 직관적인 파일 탐색과 편리한 사용성을 강조한 3D 기반 클라우드 스토리지 서비스입니다.<br><br>프로젝트의 전반적인 기획과 서비스에 필요한 3D 모델링, UI/UX 디자인을 담당했습니다.',
-  kirna: '대학에서 진행한 Kirna 프로젝트입니다. 작업 내용과 결과물을 준비 중입니다.',
+  kirna: '대학에서 진행한 Kirna 프로젝트입니다.',
   puangjump: '대학 프로젝트로 1인 개발한 Puang Jump입니다. Jump King에서 영감을 받아 점프와 이동을 중심으로 다양한 장애물과 기믹을 구현한 플랫폼 게임입니다. 점프의 거리와 타이밍을 조절하며 장애물을 극복하고, 여러 구간을 통과해 목표 지점까지 도달하도록 구성했습니다.',
   scene2024: 'CRT 모니터와 레트로 게임기, SF 우주선 내부 환경을 중심으로 구성한 2024년 개인 작업입니다. 다양한 소품과 구조물, 패널과 배선의 디테일을 구성하고 재질과 조명을 활용해 각 공간의 분위기를 표현했습니다.',
   knife: '산업 현장에서 사용된 공구를 콘셉트로 제작한 나이프 프랍입니다. 금속의 용접 자국과 녹, 표면 스크래치와 손잡이의 마모를 더해 거칠고 실용적인 사용감을 표현했습니다.',
@@ -60,6 +60,15 @@ const projectDescriptions = {
 const byId = Object.fromEntries([...projects, ...substanceProjects, ...universityProjects].map(project => [project.id, project]));
 // Refresh renamed/replaced images even when the browser cached the same filename.
 const imageRevisions = {
+  "University Project/Kirna/1.png": "dedcf52c48f2",
+  "University Project/Kirna/2.png": "e814667206a2",
+  "University Project/Kirna/3.png": "66e51db14594",
+  "University Project/Kirna/4.png": "31c7048aa94d",
+  "University Project/Kirna/5.png": "817db8d34fd9",
+  "University Project/Kirna/6.png": "c0dafd2de36a",
+  "University Project/Kirna/7.png": "148d13ce9a5f",
+  "University Project/Kirna/8.png": "4921d40ab1ba",
+  "University Project/Kirna/9.png": "f02297ca2b2f",
   "Substance Designer/7.jpg": "267c1b406c49",
   "Substance Designer/1.jpg": "50b0ed7d1e20",
   "Substance Designer/2.jpg": "c255e66fa72a",
