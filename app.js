@@ -17,7 +17,7 @@ const substanceProjects = [
   {id:'substance-texture-5', title:'RED TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/5.jpg', images:['Substance Designer/5.jpg']},
   {id:'substance-texture-6', title:'WORN RED TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/6.jpg', images:['Substance Designer/6.jpg']},
   {id:'substance-texture-7', title:'SOFA', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/7.jpg', images:['Substance Designer/7.jpg']},
-  {id:'substance-texture-8', title:'WOOD PLANKS', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/8.jpg', images:['Substance Designer/8.jpg']},
+  {id:'substance-texture-8', title:'WOOD', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/8.jpg', images:['Substance Designer/8.jpg']},
 ];
 const substanceDescription = 'Substance 3D Designer를 활용하여 다양한 재질의 텍스처를 제작한 개인 작업입니다. 재질별 특징과 표면 디테일을 표현하며 텍스처 제작 과정을 익혔습니다.';
 const universityProjects = [
