@@ -8,7 +8,7 @@ const projects = [
   {id:'carriage', title:'CARRIAGE', category:'Personal', type:'Props', date:'2026.10', sortKey:202610, cover:'Personal/202610_Carriage/0.jpg', images:['https://www.youtube.com/watch?v=wGWjUs5om5M','Personal/202610_Carriage/0.jpg','Personal/202610_Carriage/1.jpg','Personal/202610_Carriage/4.jpg','Personal/202610_Carriage/5.jpg','Personal/202610_Carriage/6.jpg','Personal/202610_Carriage/7.jpg','Personal/202610_Carriage/8.jpg','Personal/202610_Carriage/9.jpg','Personal/202610_Carriage/10.jpg','Personal/202610_Carriage/11.jpg','Personal/202610_Carriage/12.jpg','Personal/202610_Carriage/13.jpg','Personal/202610_Carriage/14.jpg']},
   {id:'zbrush', title:'ZBRUSH STUDY', category:'ZBrush', type:'ZBrush', date:'2024–2026', sortKey:202606, cover:'Personal/ZBrush/Zbrush/202606_Rock3/1.jpg', images:['Personal/ZBrush/Zbrush/202606_Rock3/1.jpg','Personal/ZBrush/Zbrush/202606_Rock3/2.jpg','Personal/ZBrush/Zbrush/202606_Rock3/3.jpg','Personal/ZBrush/Zbrush/202606_Rock3/4.jpg','Personal/ZBrush/Zbrush/202606_Rock3/5.jpg','Personal/ZBrush/Zbrush/202604_Rock2/1.jpg','Personal/ZBrush/Zbrush/202604_Rock2/2.jpg','Personal/ZBrush/Zbrush/202603_Rock/1.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/1.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/2.jpg','Personal/ZBrush/Zbrush/2024_Tile Study/3.jpg']},
 ];
-// Each texture has one image; the viewer shares navigation across this collection.
+// The viewer includes all textures; detail-only variants are omitted from the grid.
 const substanceProjects = [
   {id:'substance-tile', title:'TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/1.jpg', images:['Substance Designer/1.jpg']},
   {id:'substance-texture-2', title:'BLUE TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/2.jpg', images:['Substance Designer/2.jpg']},
@@ -18,6 +18,9 @@ const substanceProjects = [
   {id:'substance-texture-6', title:'WORN RED TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/6.jpg', images:['Substance Designer/6.jpg']},
   {id:'substance-texture-7', title:'SOFA', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/7.jpg', images:['Substance Designer/7.jpg']},
   {id:'substance-texture-8', title:'WOOD', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/8.jpg', images:['Substance Designer/8.jpg']},
+  {id:'substance-texture-9', title:'QUILTED FABRIC', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/9.jpg', images:['Substance Designer/9.jpg']},
+  {id:'substance-texture-10', title:'ORANGE QUILTED FABRIC', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/10.jpg', images:['Substance Designer/10.jpg'], detailOnly:true},
+  {id:'substance-texture-11', title:'BLUE QUILTED FABRIC', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/11.jpg', images:['Substance Designer/11.jpg'], detailOnly:true},
 ];
 const substanceDescription = 'Substance 3D Designer를 활용하여 다양한 재질의 텍스처를 제작한 개인 작업입니다. 재질별 특징과 표면 디테일을 표현하며 텍스처 제작 과정을 익혔습니다.';
 const universityProjects = [
@@ -117,8 +120,9 @@ function renderProjects() {
   const ordered = orderedProjects();
   document.querySelector('#projectCount').innerHTML = `${projects.length} Projects<br />Click → Detail`;
   document.querySelector('#personalGrid').innerHTML = ordered.map(projectCard).join('');
-  document.querySelector('#substanceGrid').innerHTML = substanceProjects.map(projectCard).join('');
-  document.querySelector('#substanceCount').innerHTML = `${substanceProjects.length} Textures<br />Click → Detail`;
+  const substanceCards = substanceProjects.filter(project => !project.detailOnly);
+  document.querySelector('#substanceGrid').innerHTML = substanceCards.map(projectCard).join('');
+  document.querySelector('#substanceCount').innerHTML = `${substanceCards.length} Textures<br />Click → Detail`;
   document.querySelector('#universityGrid').innerHTML = universityProjects.map(projectCard).join('');
 }
 const isSubstanceProject = () => substanceProjects.includes(activeProject);
