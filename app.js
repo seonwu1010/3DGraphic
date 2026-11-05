@@ -21,7 +21,7 @@ const substanceProjects = [
   {id:'substance-texture-9', title:'QUILTED FABRIC', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/9.jpg', images:['Substance Designer/9.jpg']},
   {id:'substance-texture-10', title:'ORANGE QUILTED FABRIC', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/10.jpg', images:['Substance Designer/10.jpg'], detailOnly:true},
   {id:'substance-texture-11', title:'BLUE QUILTED FABRIC', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/11.jpg', images:['Substance Designer/11.jpg'], detailOnly:true},
-  {id:'substance-texture-12', title:'SPIKED METAL', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/12.jpg', images:['Substance Designer/12.jpg']},
+  {id:'substance-texture-12', title:'METAL', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/12.jpg', images:['Substance Designer/12.jpg']},
 ];
 const substanceDescription = 'Substance 3D Designer를 활용하여 다양한 재질의 텍스처를 제작한 개인 작업입니다. 재질별 특징과 표면 디테일을 표현하며 텍스처 제작 과정을 익혔습니다.';
 const universityProjects = [
