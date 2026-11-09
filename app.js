@@ -10,8 +10,8 @@ const projects = [
 ];
 // The viewer includes all textures; detail-only variants are omitted from the grid.
 const substanceProjects = [
-  {id:'substance-tile', title:'TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/1.jpg', images:['Substance Designer/1.jpg']},
   {id:'substance-texture-2', title:'BLUE TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/2.jpg', images:['Substance Designer/2.jpg']},
+  {id:'substance-tile', title:'TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/1.jpg', images:['Substance Designer/1.jpg'], detailOnly:true},
   {id:'substance-texture-3', title:'BRICK', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/3.jpg', images:['Substance Designer/3.jpg']},
   {id:'substance-texture-4', title:'CHAINMAIL', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/4.jpg', images:['Substance Designer/4.jpg']},
   {id:'substance-texture-5', title:'RED TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/5.jpg', images:['Substance Designer/5.jpg']},
@@ -22,6 +22,7 @@ const substanceProjects = [
   {id:'substance-texture-10', title:'ORANGE QUILTED FABRIC', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/10.jpg', images:['Substance Designer/10.jpg'], detailOnly:true},
   {id:'substance-texture-11', title:'BLUE QUILTED FABRIC', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/11.jpg', images:['Substance Designer/11.jpg'], detailOnly:true},
   {id:'substance-texture-12', title:'METAL', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/12.jpg', images:['Substance Designer/12.jpg']},
+  {id:'substance-texture-13', title:'ROCK', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/13.jpg', images:['Substance Designer/13.jpg']},
 ];
 const substanceDescription = 'Substance 3D Designer를 활용하여 다양한 재질의 텍스처를 제작한 개인 작업입니다. 재질별 특징과 표면 디테일을 표현하며 텍스처 제작 과정을 익혔습니다.';
 const universityProjects = [
