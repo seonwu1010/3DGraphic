@@ -12,10 +12,10 @@ const projects = [
 const substanceProjects = [
   {id:'substance-texture-2', title:'BLUE TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/2.jpg', images:['Substance Designer/2.jpg']},
   {id:'substance-tile', title:'TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/1.jpg', images:['Substance Designer/1.jpg'], detailOnly:true},
-  {id:'substance-texture-3', title:'BRICK', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/3.jpg', images:['Substance Designer/3.jpg']},
+  {id:'substance-texture-3', title:'BRICK', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/3.jpg', images:['Substance Designer/3.jpg'], detailOnly:true},
   {id:'substance-texture-4', title:'CHAINMAIL', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/4.jpg', images:['Substance Designer/4.jpg']},
-  {id:'substance-texture-5', title:'RED TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/5.jpg', images:['Substance Designer/5.jpg']},
   {id:'substance-texture-6', title:'WORN RED TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/6.jpg', images:['Substance Designer/6.jpg']},
+  {id:'substance-texture-5', title:'RED TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/5.jpg', images:['Substance Designer/5.jpg'], detailOnly:true},
   {id:'substance-texture-7', title:'SOFA', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/7.jpg', images:['Substance Designer/7.jpg']},
   {id:'substance-texture-8', title:'WOOD', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/8.jpg', images:['Substance Designer/8.jpg']},
   {id:'substance-texture-9', title:'QUILTED FABRIC', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/9.jpg', images:['Substance Designer/9.jpg']},
@@ -23,6 +23,8 @@ const substanceProjects = [
   {id:'substance-texture-11', title:'BLUE QUILTED FABRIC', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/11.jpg', images:['Substance Designer/11.jpg'], detailOnly:true},
   {id:'substance-texture-12', title:'METAL', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/12.jpg', images:['Substance Designer/12.jpg']},
   {id:'substance-texture-13', title:'ROCK', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/13.jpg', images:['Substance Designer/13.jpg']},
+  {id:'substance-texture-14', title:'RED BRICK', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/14.jpg', images:['Substance Designer/14.jpg']},
+  {id:'substance-texture-15', title:'ROOF TILE', category:'Substance Designer', type:'Texture', date:'', cover:'Substance Designer/15.jpg', images:['Substance Designer/15.jpg']},
 ];
 const substanceDescription = 'Substance 3D Designer를 활용하여 다양한 재질의 텍스처를 제작한 개인 작업입니다. 재질별 특징과 표면 디테일을 표현하며 텍스처 제작 과정을 익혔습니다.';
 const universityProjects = [
@@ -66,6 +68,7 @@ const projectDescriptions = {
 const byId = Object.fromEntries([...projects, ...substanceProjects, ...universityProjects].map(project => [project.id, project]));
 // Refresh renamed/replaced images even when the browser cached the same filename.
 const imageRevisions = {
+  "Substance Designer/13.jpg": "9810d185a970",
   "University Project/Kirna/1.png": "dedcf52c48f2",
   "University Project/Kirna/2.png": "e814667206a2",
   "University Project/Kirna/3.png": "66e51db14594",
